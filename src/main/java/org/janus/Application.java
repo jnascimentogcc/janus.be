@@ -1,6 +1,8 @@
 package org.janus;
 
 import com.squareup.javapoet.JavaFile;
+import org.janus.db.ColumnDB;
+import org.janus.db.ColumnSpec;
 import org.janus.db.TableDB;
 import org.janus.generate.ClassEntity;
 import org.janus.generate.InterfaceRepository;
@@ -39,7 +41,8 @@ public class Application {
         List<String> listTable = TableDB.getTables("DEMO");
         listTable.forEach((item) -> {
             try {
-                JavaFile classEntity = JavaFile.builder("com.kadipe.demo.user.repository", ClassEntity.generate(item))
+                List<ColumnSpec> listColumn = ColumnDB.getColumns("DEMO", item);
+                JavaFile classEntity = JavaFile.builder("com.kadipe.demo.user.repository", ClassEntity.generate(item, listColumn))
                         .build();
                 classEntity.writeTo(System.out);
                 classEntity.writeTo(path);

@@ -8,12 +8,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import org.apache.commons.text.CaseUtils;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 import javax.lang.model.element.Modifier;
-import java.io.Serializable;
 
 public class MasterEntity {
 
@@ -36,16 +33,16 @@ public class MasterEntity {
                 .addModifiers(Modifier.PRIVATE)
                 .build();
 
-        MethodSpec setKey = MethodSpec.methodBuilder("set" + CaseUtils.toCamelCase(idName, true))
+        MethodSpec setKey = MethodSpec.methodBuilder("setId")
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(String.class, idName)
-                .addStatement("this." + idName + " = id")
+                .addStatement("this.id = id")
                 .build();
 
-        MethodSpec getKey = MethodSpec.methodBuilder("get" + CaseUtils.toCamelCase(idName, true))
+        MethodSpec getKey = MethodSpec.methodBuilder("getId")
                 .addModifiers(Modifier.PUBLIC)
                 .returns(String.class)
-                .addStatement("return this." + idName)
+                .addStatement("return this.id")
                 .build();
 
         return TypeSpec.classBuilder("MasterEntity")
