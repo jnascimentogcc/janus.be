@@ -1,9 +1,8 @@
 package org.janus.db;
 
-public record ColumnSpec(
+public record ColumnSimpleSpec(
    String name,
    String type,
    Integer size,
-   Boolean nullable,
-   Boolean pk
+   Boolean nullable
 ) {}

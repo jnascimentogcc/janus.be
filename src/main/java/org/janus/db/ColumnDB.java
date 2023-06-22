@@ -9,9 +9,9 @@ import java.util.List;
 
 public class ColumnDB {
 
-    public static List<ColumnSpec> getColumns(String schemaName, String tableName) {
+    public static List<ColumnSimpleSpec> getSimpleColumns(String schemaName, String tableName) {
 
-        List<ColumnSpec> listColumn = new ArrayList<>();
+        List<ColumnSimpleSpec> listColumn = new ArrayList<>();
         try {
             Connection connection = ConnectionDB.getConnection();
             Statement stmtColumn = connection.createStatement();
@@ -24,12 +24,48 @@ public class ColumnDB {
                     "WHERE TABLE_SCHEMA = '" + schemaName + "' " +
                     "AND TABLE_NAME = '" + tableName + "' ORDER BY ORDINAL_POSITION");
             while (rsColumn.next()) {
-                ColumnSpec columnSpec = new ColumnSpec(rsColumn.getString(1),
-                        rsColumn.getString(2),
-                        rsColumn.getInt(3),
-                        "YES".equals(rsColumn.getString(4)),
-                        "PRI".equals(rsColumn.getString(5)));
-                listColumn.add(columnSpec);
+                if (!"PRI".equals(rsColumn.getString(5)) && !"MUL".equals(rsColumn.getString(5))) {
+                    ColumnSimpleSpec columnSimpleSpec = new ColumnSimpleSpec(rsColumn.getString(1),
+                            rsColumn.getString(2),
+                            rsColumn.getInt(3),
+                            "YES".equals(rsColumn.getString(4)));
+                    listColumn.add(columnSimpleSpec);
+                }
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listColumn;
+    }
+
+    public static List<ColumnManyToOneSpec> getManyToOneColumns(String schemaName, String tableName) {
+
+        List<ColumnManyToOneSpec> listColumn = new ArrayList<>();
+        try {
+            Connection connection = ConnectionDB.getConnection();
+            Statement stmtColumn = connection.createStatement();
+            ResultSet rsColumn = stmtColumn.executeQuery("SELECT COLUMN_NAME, " +
+                    "IS_NULLABLE, " +
+                    "COLUMN_KEY " +
+                    "FROM INFORMATION_SCHEMA.COLUMNS " +
+                    "WHERE TABLE_SCHEMA = '" + schemaName + "' " +
+                    "AND TABLE_NAME = '" + tableName + "' ORDER BY ORDINAL_POSITION");
+            while (rsColumn.next()) {
+                if ("MUL".equals(rsColumn.getString(3))) {
+                    Statement stmtColumnFK = connection.createStatement();
+                    ResultSet rsColumnFK = stmtColumnFK.executeQuery("SELECT REFERENCED_TABLE_NAME " +
+                            "FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE " +
+                            "WHERE TABLE_SCHEMA = '" + schemaName + "' " +
+                            "AND TABLE_NAME = '" + tableName + "' AND " +
+                            "COLUMN_NAME = '" + rsColumn.getString(1) + "'");
+                    while (rsColumnFK.next()) {
+                        ColumnManyToOneSpec columnManyToOneSpec = new ColumnManyToOneSpec(
+                                rsColumn.getString(1), rsColumnFK.getString(1), "YES".equals(rsColumn.getString(2)));
+                        listColumn.add(columnManyToOneSpec);
+                    }
+                }
             }
             connection.close();
         } catch (SQLException e) {

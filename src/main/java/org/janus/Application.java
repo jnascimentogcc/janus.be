@@ -1,8 +1,10 @@
 package org.janus;
 
 import com.squareup.javapoet.JavaFile;
+import jakarta.persistence.FetchType;
 import org.janus.db.ColumnDB;
-import org.janus.db.ColumnSpec;
+import org.janus.db.ColumnManyToOneSpec;
+import org.janus.db.ColumnSimpleSpec;
 import org.janus.db.TableDB;
 import org.janus.generate.ClassEntity;
 import org.janus.generate.InterfaceRepository;
@@ -41,8 +43,14 @@ public class Application {
         List<String> listTable = TableDB.getTables("DEMO");
         listTable.forEach((item) -> {
             try {
-                List<ColumnSpec> listColumn = ColumnDB.getColumns("DEMO", item);
-                JavaFile classEntity = JavaFile.builder("com.kadipe.demo.user.repository", ClassEntity.generate(item, listColumn))
+                List<ColumnSimpleSpec> listColumnSimple = ColumnDB.getSimpleColumns("DEMO", item);
+                List<ColumnManyToOneSpec> listColumnManyToOne = ColumnDB.getManyToOneColumns("DEMO", item);
+                JavaFile.Builder builder = JavaFile.builder("com.kadipe.demo.user.repository",
+                        ClassEntity.generate(item, listColumnSimple, listColumnManyToOne));
+                if (listColumnManyToOne.size() > 0) {
+                    builder.addStaticImport(FetchType.LAZY);
+                }
+                JavaFile classEntity = builder
                         .build();
                 classEntity.writeTo(System.out);
                 classEntity.writeTo(path);
