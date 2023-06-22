@@ -2,14 +2,11 @@ package org.janus;
 
 import com.squareup.javapoet.JavaFile;
 import jakarta.persistence.FetchType;
-import org.janus.db.ColumnDB;
-import org.janus.db.ColumnManyToOneSpec;
-import org.janus.db.ColumnSimpleSpec;
-import org.janus.db.TableDB;
-import org.janus.generate.ClassEntity;
-import org.janus.generate.InterfaceRepository;
-import org.janus.generate.MasterEntity;
-import org.janus.generate.TableKeyHelper;
+import org.janus.db.*;
+import org.janus.generate.clazz.ClassEntity;
+import org.janus.generate.iface.InterfaceRepository;
+import org.janus.generate.clazz.MasterEntity;
+import org.janus.generate.clazz.TableKeyHelper;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -23,7 +20,7 @@ public class Application {
         Path path = Paths.get("/projetos/noob/target");
 
         try {
-            JavaFile keyHelper = JavaFile.builder("com.kadipe.demo.helper", TableKeyHelper.generate())
+            JavaFile keyHelper = JavaFile.builder("com.kadipe.helper", TableKeyHelper.generate())
                     .build();
             keyHelper.writeTo(System.out);
             keyHelper.writeTo(path);
@@ -32,7 +29,7 @@ public class Application {
         }
 
         try {
-            JavaFile keyHelper = JavaFile.builder("com.kadipe.demo.helper", MasterEntity.generate("id"))
+            JavaFile keyHelper = JavaFile.builder("com.kadipe.helper", MasterEntity.generate("id"))
                     .build();
             keyHelper.writeTo(System.out);
             keyHelper.writeTo(path);
@@ -40,14 +37,15 @@ public class Application {
             throw new RuntimeException(e);
         }
 
-        List<String> listTable = TableDB.getTables("DEMO");
+        List<String> listTable = TableDB.getTables("KADIPE");
         listTable.forEach((item) -> {
             try {
-                List<ColumnSimpleSpec> listColumnSimple = ColumnDB.getSimpleColumns("DEMO", item);
-                List<ColumnManyToOneSpec> listColumnManyToOne = ColumnDB.getManyToOneColumns("DEMO", item);
+                List<ColumnSimpleSpec> listColumnSimple = ColumnDB.getSimpleColumns("KADIPE", item);
+                List<ColumnManyToOneSpec> listColumnManyToOne = ColumnDB.getManyToOneColumns("KADIPE", item);
+                List<ColumnOneToManySpec> listColumnOneToMany = ColumnDB.getOneToManyColumns("KADIPE", item);
                 JavaFile.Builder builder = JavaFile.builder("com.kadipe.demo.user.repository",
-                        ClassEntity.generate(item, listColumnSimple, listColumnManyToOne));
-                if (listColumnManyToOne.size() > 0) {
+                        ClassEntity.generate(item, listColumnSimple, listColumnManyToOne, listColumnOneToMany));
+                if (listColumnManyToOne.size() > 0 || listColumnOneToMany.size() > 0) {
                     builder.addStaticImport(FetchType.LAZY);
                 }
                 JavaFile classEntity = builder

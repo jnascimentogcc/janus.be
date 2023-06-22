@@ -1,10 +1,10 @@
-package org.janus.generate;
+package org.janus.generate.annotation;
 
 import com.squareup.javapoet.AnnotationSpec;
 import jakarta.persistence.Column;
 import org.janus.db.ColumnSimpleSpec;
 
-public class AnnotationColumnSimple {
+public class AnnotationColumn {
 
     public static AnnotationSpec generate(ColumnSimpleSpec columnSimpleSpec) {
 

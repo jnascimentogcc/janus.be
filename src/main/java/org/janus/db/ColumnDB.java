@@ -24,11 +24,11 @@ public class ColumnDB {
                     "WHERE TABLE_SCHEMA = '" + schemaName + "' " +
                     "AND TABLE_NAME = '" + tableName + "' ORDER BY ORDINAL_POSITION");
             while (rsColumn.next()) {
-                if (!"PRI".equals(rsColumn.getString(5)) && !"MUL".equals(rsColumn.getString(5))) {
+                if (!"PRI" .equals(rsColumn.getString(5)) && !"MUL" .equals(rsColumn.getString(5))) {
                     ColumnSimpleSpec columnSimpleSpec = new ColumnSimpleSpec(rsColumn.getString(1),
                             rsColumn.getString(2),
                             rsColumn.getInt(3),
-                            "YES".equals(rsColumn.getString(4)));
+                            "YES" .equals(rsColumn.getString(4)));
                     listColumn.add(columnSimpleSpec);
                 }
             }
@@ -53,7 +53,7 @@ public class ColumnDB {
                     "WHERE TABLE_SCHEMA = '" + schemaName + "' " +
                     "AND TABLE_NAME = '" + tableName + "' ORDER BY ORDINAL_POSITION");
             while (rsColumn.next()) {
-                if ("MUL".equals(rsColumn.getString(3))) {
+                if ("MUL" .equals(rsColumn.getString(3))) {
                     Statement stmtColumnFK = connection.createStatement();
                     ResultSet rsColumnFK = stmtColumnFK.executeQuery("SELECT REFERENCED_TABLE_NAME " +
                             "FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE " +
@@ -62,10 +62,34 @@ public class ColumnDB {
                             "COLUMN_NAME = '" + rsColumn.getString(1) + "'");
                     while (rsColumnFK.next()) {
                         ColumnManyToOneSpec columnManyToOneSpec = new ColumnManyToOneSpec(
-                                rsColumn.getString(1), rsColumnFK.getString(1), "YES".equals(rsColumn.getString(2)));
+                                rsColumn.getString(1), rsColumnFK.getString(1), "YES" .equals(rsColumn.getString(2)));
                         listColumn.add(columnManyToOneSpec);
                     }
                 }
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listColumn;
+    }
+
+    public static List<ColumnOneToManySpec> getOneToManyColumns(String schemaName, String tableName) {
+
+        List<ColumnOneToManySpec> listColumn = new ArrayList<>();
+        try {
+            Connection connection = ConnectionDB.getConnection();
+            Statement stmtColumn = connection.createStatement();
+            ResultSet rsColumn = stmtColumn.executeQuery("SELECT TABLE_NAME, " +
+                    "REFERENCED_TABLE_NAME " +
+                    "FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE " +
+                    "WHERE TABLE_SCHEMA = '" + schemaName + "' " +
+                    "AND REFERENCED_TABLE_NAME = '" + tableName + "' ORDER BY ORDINAL_POSITION");
+            while (rsColumn.next()) {
+                ColumnOneToManySpec columnOneToManySpec = new ColumnOneToManySpec(
+                        rsColumn.getString(1), rsColumn.getString(2));
+                listColumn.add(columnOneToManySpec);
             }
             connection.close();
         } catch (SQLException e) {

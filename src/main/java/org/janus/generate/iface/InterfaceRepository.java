@@ -1,13 +1,11 @@
-package org.janus.generate;
+package org.janus.generate.iface;
 
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
+import com.squareup.javapoet.*;
 import org.apache.commons.text.CaseUtils;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.lang.model.element.Modifier;
+import java.util.Optional;
 
 public class InterfaceRepository {
 
@@ -21,6 +19,11 @@ public class InterfaceRepository {
                 .interfaceBuilder(prefixName + "Repository")
                 .addSuperinterface(ParameterizedTypeName.get(ClassName.get(CrudRepository.class), entity, idType))
                 .addModifiers(Modifier.PUBLIC)
+                .addMethod(MethodSpec.methodBuilder("findByEmail")
+                        .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+                        .addParameter(String.class, "email")
+                        .returns(ParameterizedTypeName.get(ClassName.get(Optional.class), entity))
+                        .build())
                 .build();
     }
 }

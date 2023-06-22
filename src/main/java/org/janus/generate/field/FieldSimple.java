@@ -1,8 +1,9 @@
-package org.janus.generate;
+package org.janus.generate.field;
 
 import com.squareup.javapoet.FieldSpec;
 import org.apache.commons.text.CaseUtils;
 import org.janus.db.ColumnSimpleSpec;
+import org.janus.generate.annotation.AnnotationColumn;
 
 import javax.lang.model.element.Modifier;
 import java.lang.reflect.Type;
@@ -15,7 +16,7 @@ public class FieldSimple {
         Type typeField = getTypeField(columnSimpleSpec);
 
         return FieldSpec.builder(typeField, CaseUtils.toCamelCase(columnSimpleSpec.name(), false, '_'))
-                .addAnnotation(AnnotationColumnSimple.generate(columnSimpleSpec))
+                .addAnnotation(AnnotationColumn.generate(columnSimpleSpec))
                 .addModifiers(Modifier.PRIVATE)
                 .build();
     }

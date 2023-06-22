@@ -1,4 +1,4 @@
-package org.janus.generate;
+package org.janus.generate.clazz;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.FieldSpec;

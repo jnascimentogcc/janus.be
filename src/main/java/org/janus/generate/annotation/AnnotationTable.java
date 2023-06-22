@@ -1,4 +1,4 @@
-package org.janus.generate;
+package org.janus.generate.annotation;
 
 import com.squareup.javapoet.AnnotationSpec;
 import jakarta.persistence.Table;
