@@ -98,4 +98,27 @@ public class ColumnDB {
 
         return listColumn;
     }
+
+    public static List<String> getUKColumns(String schemaName, String tableName) {
+
+        List<String> listColumn = new ArrayList<>();
+        try {
+            Connection connection = ConnectionDB.getConnection();
+            Statement stmtColumn = connection.createStatement();
+            ResultSet rsColumn = stmtColumn.executeQuery("SELECT COLUMN_NAME " +
+                    "FROM INFORMATION_SCHEMA.COLUMNS " +
+                    "WHERE TABLE_SCHEMA = '" + schemaName + "' " +
+                    "AND TABLE_NAME = '" + tableName + "' " +
+                    "AND COLUMN_KEY = 'UNI'");
+            while (rsColumn.next()) {
+                listColumn.add(rsColumn.getString(1));
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listColumn;
+    }
+
 }

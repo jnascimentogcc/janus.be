@@ -59,7 +59,9 @@ public class Application {
 
         listTable.forEach((item) -> {
             try {
-                JavaFile interfaceRepository = JavaFile.builder("com.kadipe.demo.user.repository", InterfaceRepository.generate(item))
+                List<String> listUKColumn = ColumnDB.getUKColumns("KADIPE", item);
+                JavaFile interfaceRepository = JavaFile
+                        .builder("com.kadipe.demo.user.repository", InterfaceRepository.generate(item, listUKColumn))
                         .build();
                 interfaceRepository.writeTo(System.out);
                 interfaceRepository.writeTo(path);
