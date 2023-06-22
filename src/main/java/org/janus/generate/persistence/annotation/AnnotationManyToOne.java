@@ -1,8 +1,7 @@
-package org.janus.generate.annotation;
+package org.janus.generate.persistence.annotation;
 
 import com.squareup.javapoet.AnnotationSpec;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import org.janus.db.ColumnManyToOneSpec;
 

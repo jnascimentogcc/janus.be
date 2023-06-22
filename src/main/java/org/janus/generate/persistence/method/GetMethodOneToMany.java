@@ -1,4 +1,4 @@
-package org.janus.generate.method;
+package org.janus.generate.persistence.method;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;

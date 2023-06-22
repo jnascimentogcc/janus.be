@@ -1,9 +1,9 @@
-package org.janus.generate.method;
+package org.janus.generate.persistence.method;
 
 import com.squareup.javapoet.MethodSpec;
 import org.apache.commons.text.CaseUtils;
 import org.janus.db.ColumnSimpleSpec;
-import org.janus.generate.field.FieldSimple;
+import org.janus.generate.persistence.field.FieldSimple;
 
 import javax.lang.model.element.Modifier;
 

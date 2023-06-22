@@ -1,9 +1,8 @@
-package org.janus.generate.method;
+package org.janus.generate.persistence.method;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import org.apache.commons.text.CaseUtils;
-import org.janus.db.ColumnManyToOneSpec;
 import org.janus.db.ColumnOneToManySpec;
 
 import javax.lang.model.element.Modifier;

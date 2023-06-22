@@ -1,4 +1,4 @@
-package org.janus.generate.clazz;
+package org.janus.generate.persistence.clazz;
 
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;

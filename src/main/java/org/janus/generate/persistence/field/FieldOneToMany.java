@@ -1,14 +1,11 @@
-package org.janus.generate.field;
+package org.janus.generate.persistence.field;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import org.apache.commons.text.CaseUtils;
-import org.janus.db.ColumnManyToOneSpec;
 import org.janus.db.ColumnOneToManySpec;
-import org.janus.generate.annotation.AnnotationJoinColumn;
-import org.janus.generate.annotation.AnnotationManyToOne;
-import org.janus.generate.annotation.AnnotationOneToMany;
+import org.janus.generate.persistence.annotation.AnnotationOneToMany;
 
 import javax.lang.model.element.Modifier;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package org.janus.generate.annotation;
+package org.janus.generate.persistence.annotation;
 
 import com.squareup.javapoet.AnnotationSpec;
 import jakarta.persistence.Column;

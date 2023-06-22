@@ -1,4 +1,4 @@
-package org.janus.generate.iface;
+package org.janus.generate.persistence.iface;
 
 import com.squareup.javapoet.MethodSpec;
 import org.apache.commons.text.CaseUtils;
