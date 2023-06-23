@@ -7,6 +7,7 @@ import org.janus.generate.persistence.annotation.AnnotationColumn;
 
 import javax.lang.model.element.Modifier;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class FieldSimple {
@@ -24,6 +25,9 @@ public class FieldSimple {
     public static Type getTypeField(ColumnSimpleSpec columnSimpleSpec) {
         Type typeField = String.class;
         switch (columnSimpleSpec.type().toUpperCase()) {
+            case "DECIMAL":
+                typeField = BigDecimal.class;
+                break;
             case "DATETIME":
                 typeField = LocalDateTime.class;
                 break;
