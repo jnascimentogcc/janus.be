@@ -9,6 +9,8 @@ import org.janus.db.ColumnDB;
 import org.janus.db.ColumnManyToOneSpec;
 import org.janus.db.ColumnOneToManySpec;
 import org.janus.db.ColumnSimpleSpec;
+import org.janus.generate.controller.ControllerExceptionHandler;
+import org.janus.generate.exception.ItemNotFoundException;
 import org.janus.generate.persistence.clazz.ClassEntity;
 import org.janus.generate.persistence.clazz.MasterEntity;
 import org.janus.generate.persistence.clazz.TableKeyHelper;
@@ -24,6 +26,24 @@ public class Runner {
     public static void execute(ConfigJanus configJanus) {
 
         Path path = Paths.get("/projetos/noob/target");
+
+        try {
+            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.exception", ItemNotFoundException.generate())
+                    .build();
+            keyHelper.writeTo(System.out);
+            keyHelper.writeTo(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.controller", ControllerExceptionHandler.generate())
+                    .build();
+            keyHelper.writeTo(System.out);
+            keyHelper.writeTo(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         try {
             JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.db", TableKeyHelper.generate())
