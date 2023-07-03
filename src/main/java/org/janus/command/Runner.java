@@ -11,6 +11,7 @@ import org.janus.db.ColumnOneToManySpec;
 import org.janus.db.ColumnSimpleSpec;
 import org.janus.generate.controller.ControllerExceptionHandler;
 import org.janus.generate.exception.ItemNotFoundException;
+import org.janus.generate.persistence.clazz.ClassDTO;
 import org.janus.generate.persistence.clazz.ClassEntity;
 import org.janus.generate.persistence.clazz.MasterEntity;
 import org.janus.generate.persistence.clazz.TableKeyHelper;
@@ -69,15 +70,23 @@ public class Runner {
                 List<ColumnSimpleSpec> listColumnSimple = ColumnDB.getSimpleColumns(configJanus.getDatabaseSchema(), item.name());
                 List<ColumnManyToOneSpec> listColumnManyToOne = ColumnDB.getManyToOneColumns(configJanus.getDatabaseSchema(), item.name());
                 List<ColumnOneToManySpec> listColumnOneToMany = ColumnDB.getOneToManyColumns(configJanus.getDatabaseSchema(), item.name());
-                JavaFile.Builder builder = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".repository",
+                JavaFile.Builder builderEntity = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".repository",
                         ClassEntity.generate(item.name(), listColumnSimple, listColumnManyToOne, listColumnOneToMany));
                 if (listColumnManyToOne.size() > 0 || listColumnOneToMany.size() > 0) {
-                    builder.addStaticImport(FetchType.LAZY);
+                    builderEntity.addStaticImport(FetchType.LAZY);
                 }
-                JavaFile classEntity = builder
+                JavaFile classEntity = builderEntity
                         .build();
                 classEntity.writeTo(System.out);
                 classEntity.writeTo(path);
+
+                JavaFile.Builder builderDTO = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".model",
+                        ClassDTO.generate(item.name(), listColumnSimple, listColumnManyToOne, listColumnOneToMany));
+                JavaFile classDTO = builderDTO
+                        .build();
+                classDTO.writeTo(System.out);
+                classDTO.writeTo(path);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
