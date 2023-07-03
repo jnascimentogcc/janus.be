@@ -11,10 +11,7 @@ import org.janus.db.ColumnOneToManySpec;
 import org.janus.db.ColumnSimpleSpec;
 import org.janus.generate.controller.ControllerExceptionHandler;
 import org.janus.generate.exception.ItemNotFoundException;
-import org.janus.generate.persistence.clazz.ClassDTO;
-import org.janus.generate.persistence.clazz.ClassEntity;
-import org.janus.generate.persistence.clazz.MasterEntity;
-import org.janus.generate.persistence.clazz.TableKeyHelper;
+import org.janus.generate.persistence.clazz.*;
 import org.janus.generate.persistence.iface.InterfaceRepository;
 
 import java.io.IOException;
@@ -86,6 +83,14 @@ public class Runner {
                         .build();
                 classDTO.writeTo(System.out);
                 classDTO.writeTo(path);
+
+                // TODO: One Service
+                JavaFile.Builder builderService = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".service",
+                        ClassService.generate(item.name(), listColumnSimple, listColumnManyToOne, listColumnOneToMany));
+                JavaFile classService = builderService
+                        .build();
+                classService.writeTo(System.out);
+                classService.writeTo(path);
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
