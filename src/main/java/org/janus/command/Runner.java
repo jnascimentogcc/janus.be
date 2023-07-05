@@ -64,8 +64,8 @@ public class Runner {
         List<TableSpec> listTable = ParserTable.getTables(configJanus);
         listTable.forEach((item) -> {
             try {
-                List<ColumnSimpleSpec> listColumnSimple = ColumnDB.getSimpleColumns(configJanus.getDatabaseSchema(), item.name());
-                List<ColumnManyToOneSpec> listColumnManyToOne = ColumnDB.getManyToOneColumns(configJanus.getDatabaseSchema(), item.name());
+                List<ColumnSimpleSpec> listColumnSimple = item.columns();
+                List<ColumnManyToOneSpec> listColumnManyToOne = item.manytoone();
                 List<ColumnOneToManySpec> listColumnOneToMany = ColumnDB.getOneToManyColumns(configJanus.getDatabaseSchema(), item.name());
                 JavaFile.Builder builderEntity = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".repository",
                         ClassEntity.generate(item.name(), listColumnSimple, listColumnManyToOne, listColumnOneToMany));

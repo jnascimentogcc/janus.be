@@ -1,10 +1,15 @@
 package org.janus.config.model;
 
+import org.janus.db.ColumnManyToOneSpec;
+import org.janus.db.ColumnSimpleSpec;
+
 import java.util.List;
 
 public class Crud {
 
     private String table;
+    private List<ColumnSimpleSpec> columns;
+    private List<ColumnManyToOneSpec> manytoone;
     private List<Op> ops;
 
     public String getTable() {
@@ -13,6 +18,22 @@ public class Crud {
 
     public void setTable(String table) {
         this.table = table;
+    }
+
+    public List<ColumnSimpleSpec> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<ColumnSimpleSpec> columns) {
+        this.columns = columns;
+    }
+
+    public List<ColumnManyToOneSpec> getManytoone() {
+        return manytoone;
+    }
+
+    public void setManytoone(List<ColumnManyToOneSpec> manytoone) {
+        this.manytoone = manytoone;
     }
 
     public List<Op> getOps() {

@@ -19,7 +19,7 @@ public class ParserTable {
                 itemArea.getBuzzProcesses().forEach((itemProcess) -> {
                     pack = pack + "." + itemProcess.getPackageName();
                     itemProcess.getCruds().forEach((itemCrud) -> {
-                        listTable.add(new TableSpec(itemCrud.getTable(), pack));
+                        listTable.add(new TableSpec(itemCrud.getTable(), pack, itemCrud.getColumns(), itemCrud.getManytoone()));
                     });
                 });
             });
