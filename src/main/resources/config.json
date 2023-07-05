@@ -103,6 +103,7 @@
                       "nullable": false
                     }
                   ],
+                  "onetomaany": [],
                   "manytoone": [
                     {
                       "name": "id_draft_proposal",
@@ -155,6 +156,12 @@
                       "type": "CHAR",
                       "size": 36,
                       "nullable": false
+                    }
+                  ],
+                  "onetomaany": [
+                    {
+                      "tableName": "product",
+                      "refTable": "draft_proposal_product"
                     }
                   ],
                   "manytoone":[
