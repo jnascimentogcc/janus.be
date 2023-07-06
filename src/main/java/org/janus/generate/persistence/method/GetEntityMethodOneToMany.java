@@ -9,7 +9,7 @@ import org.janus.db.ColumnOneToManySpec;
 import javax.lang.model.element.Modifier;
 import java.util.Collection;
 
-public class GetMethodOneToMany {
+public class GetEntityMethodOneToMany {
 
     public static MethodSpec generate(ColumnOneToManySpec columnOneToManySpec) {
 

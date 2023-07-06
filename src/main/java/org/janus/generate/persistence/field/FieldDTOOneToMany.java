@@ -10,15 +10,14 @@ import org.janus.generate.persistence.annotation.AnnotationOneToMany;
 import javax.lang.model.element.Modifier;
 import java.util.Collection;
 
-public class FieldOneToMany {
+public class FieldDTOOneToMany {
 
     public static FieldSpec generate(ColumnOneToManySpec columnOneToManySpec) {
 
         return FieldSpec.builder(ParameterizedTypeName.get(ClassName.get(Collection.class),
                                 ClassName.get("com.kadipe.demo.user.repository",
-                        CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "Entity")),
-                        CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') + "Entities")
-                .addAnnotation(AnnotationOneToMany.generate(columnOneToManySpec))
+                        CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "DTO")),
+                        CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') + "DTOs")
                 .addModifiers(Modifier.PRIVATE)
                 .build();
     }

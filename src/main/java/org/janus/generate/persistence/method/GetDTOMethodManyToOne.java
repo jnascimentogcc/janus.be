@@ -7,15 +7,15 @@ import org.janus.db.ColumnManyToOneSpec;
 
 import javax.lang.model.element.Modifier;
 
-public class GetMethodManyToOne {
+public class GetDTOMethodManyToOne {
 
     public static MethodSpec generate(ColumnManyToOneSpec columnManyToOneSpec) {
 
-        return MethodSpec.methodBuilder("get" + CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), true, '_') + "Entity")
+        return MethodSpec.methodBuilder("get" + CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), true, '_') + "DTO")
                 .addModifiers(Modifier.PUBLIC)
                 .returns(ClassName.get("com.kadipe.demo.user.repository" ,
-                        CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), true, '_') + "Entity"))
-                .addStatement("return this." + CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), false, '_') + "Entity")
+                        CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), true, '_') + "DTO"))
+                .addStatement("return this." + CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), false, '_') + "DTO")
                 .build();
     }
 

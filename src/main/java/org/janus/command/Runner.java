@@ -61,12 +61,21 @@ public class Runner {
             throw new RuntimeException(e);
         }
 
+        try {
+            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.db", MasterDTO.generate("id"))
+                    .build();
+            keyHelper.writeTo(System.out);
+            keyHelper.writeTo(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         List<TableSpec> listTable = ParserTable.getTables(configJanus);
         listTable.forEach((item) -> {
             try {
                 List<ColumnSimpleSpec> listColumnSimple = item.columns();
                 List<ColumnManyToOneSpec> listColumnManyToOne = item.manytoone();
-                List<ColumnOneToManySpec> listColumnOneToMany = ColumnDB.getOneToManyColumns(configJanus.getDatabaseSchema(), item.name());
+                List<ColumnOneToManySpec> listColumnOneToMany = item.onetomany();
                 JavaFile.Builder builderEntity = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".repository",
                         ClassEntity.generate(item.name(), listColumnSimple, listColumnManyToOne, listColumnOneToMany));
                 if (listColumnManyToOne.size() > 0 || listColumnOneToMany.size() > 0) {

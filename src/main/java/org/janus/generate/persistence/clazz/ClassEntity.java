@@ -9,9 +9,9 @@ import org.janus.db.ColumnManyToOneSpec;
 import org.janus.db.ColumnOneToManySpec;
 import org.janus.db.ColumnSimpleSpec;
 import org.janus.generate.persistence.annotation.AnnotationTable;
-import org.janus.generate.persistence.field.FieldManyToOne;
-import org.janus.generate.persistence.field.FieldOneToMany;
-import org.janus.generate.persistence.field.FieldSimple;
+import org.janus.generate.persistence.field.FieldEntityManyToOne;
+import org.janus.generate.persistence.field.FieldEntityOneToMany;
+import org.janus.generate.persistence.field.FieldEntitySimple;
 import org.janus.generate.persistence.method.*;
 
 import javax.lang.model.element.Modifier;
@@ -28,19 +28,19 @@ public class ClassEntity {
                 .superclass(ClassName.get("com.kadipe.helper", "MasterEntity"))
                 .addModifiers(Modifier.PUBLIC);
         listColumn.forEach((item) -> {
-            classEntityBuilder.addField(FieldSimple.generate(item))
+            classEntityBuilder.addField(FieldEntitySimple.generate(item))
                     .addMethod(GetMethodSimple.generate(item))
                     .addMethod(SetMethodSimple.generate(item));
         });
         listColumnManyToOne.forEach((item) -> {
-            classEntityBuilder.addField(FieldManyToOne.generate(item))
-                    .addMethod(GetMethodManyToOne.generate(item))
-                    .addMethod(SetMethodManyToOne.generate(item));
+            classEntityBuilder.addField(FieldEntityManyToOne.generate(item))
+                    .addMethod(GetEntityMethodManyToOne.generate(item))
+                    .addMethod(SetEntityMethodManyToOne.generate(item));
         });
         listColumnOneToMany.forEach((item) -> {
-            classEntityBuilder.addField(FieldOneToMany.generate(item))
-                    .addMethod(GetMethodOneToMany.generate(item))
-                    .addMethod(SetMethodOneTOMany.generate(item));
+            classEntityBuilder.addField(FieldEntityOneToMany.generate(item))
+                    .addMethod(GetEntityMethodOneToMany.generate(item))
+                    .addMethod(SetEntityMethodOneToMany.generate(item));
         });
 
         MethodSpec equals = MethodSpec.methodBuilder("equals")

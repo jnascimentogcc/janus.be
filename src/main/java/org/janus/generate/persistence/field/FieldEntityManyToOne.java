@@ -9,7 +9,7 @@ import org.janus.generate.persistence.annotation.AnnotationManyToOne;
 
 import javax.lang.model.element.Modifier;
 
-public class FieldManyToOne {
+public class FieldEntityManyToOne {
 
     public static FieldSpec generate(ColumnManyToOneSpec columnManyToOneSpec) {
 

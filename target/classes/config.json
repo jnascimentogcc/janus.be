@@ -22,25 +22,18 @@
                   "table": "draft_proposal",
                   "columns": [
                     {
-                      "name": "id",
-                      "type": "CHAR",
-                      "size": 36,
-                      "nullable": false
-                    },
-                    {
                       "name": "date",
                       "type": "DATETIME",
                       "size": null,
                       "nullable": false
-                    },
+                    }                  ],
+                  "onetomany": [
                     {
-                      "name": "id_customer",
-                      "type": "CHAR",
-                      "size": 36,
-                      "nullable": false
+                      "tableName": "draft_proposal",
+                      "refTable": "draft_proposal_product"
                     }
                   ],
-                  "manytoone":[
+                  "manytoone": [
                     {
                       "name": "id_customer",
                       "refTable": "customer",
@@ -67,12 +60,6 @@
                   "table": "draft_proposal_product",
                   "columns": [
                     {
-                      "name": "id",
-                      "type": "CHAR",
-                      "size": 36,
-                      "nullable": false
-                    },
-                    {
                       "name": "price_unit",
                       "type": "DECIMAL",
                       "size": null,
@@ -83,20 +70,8 @@
                       "type": "SMALLINT",
                       "size": null,
                       "nullable": false
-                    },
-                    {
-                      "name": "id_draft_proposal",
-                      "type": "CHAR",
-                      "size": 36,
-                      "nullable": false
-                    },
-                    {
-                      "name": "id_product",
-                      "type": "CHAR",
-                      "size": 36,
-                      "nullable": false
-                    }
-                  ],
+                    }                  ],
+                  "onetomany": [],
                   "manytoone": [
                     {
                       "name": "id_draft_proposal",
@@ -133,22 +108,16 @@
                   "table": "product",
                   "columns": [
                     {
-                      "name": "id",
-                      "type": "CHAR",
-                      "size": 36,
-                      "nullable": false
-                    },
-                    {
                       "name": "name",
                       "type": "VARCHAR",
                       "size": 100,
                       "nullable": false
-                    },
+                    }
+                  ],
+                  "onetomany": [
                     {
-                      "name": "id_group_product",
-                      "type": "CHAR",
-                      "size": 36,
-                      "nullable": false
+                      "tableName": "draft_proposal_product",
+                      "refTable": "product"
                     }
                   ],
                   "manytoone":[
@@ -178,16 +147,16 @@
                   "table": "group_product",
                   "columns": [
                     {
-                      "name": "id",
-                      "type": "CHAR",
-                      "size": 36,
-                      "nullable": false
-                    },
-                    {
                       "name": "name",
                       "type": "VARCHAR",
                       "size": 100,
                       "nullable": false
+                    }
+                  ],
+                  "onetomany": [
+                    {
+                      "tableName": "product",
+                      "refTable": "group_product"
                     }
                   ],
                   "manytoone":[],
@@ -234,12 +203,6 @@
                   "table": "customer",
                   "columns": [
                     {
-                      "name": "id",
-                      "type": "CHAR",
-                      "size": 36,
-                      "nullable": false
-                    },
-                    {
                       "name": "name",
                       "type": "VARCHAR",
                       "size": 200,
@@ -250,6 +213,12 @@
                       "type": "CHAR",
                       "size": 9,
                       "nullable": false
+                    }
+                  ],
+                  "onetomany": [
+                    {
+                      "tableName": "draft_proposal_product",
+                      "refTable": "customer"
                     }
                   ],
                   "manytoone":[],

@@ -1,6 +1,7 @@
 package org.janus.config.model;
 
 import org.janus.db.ColumnManyToOneSpec;
+import org.janus.db.ColumnOneToManySpec;
 import org.janus.db.ColumnSimpleSpec;
 
 import java.util.List;
@@ -9,6 +10,7 @@ public class Crud {
 
     private String table;
     private List<ColumnSimpleSpec> columns;
+    private List<ColumnOneToManySpec> onetomany;
     private List<ColumnManyToOneSpec> manytoone;
     private List<Op> ops;
 
@@ -26,6 +28,14 @@ public class Crud {
 
     public void setColumns(List<ColumnSimpleSpec> columns) {
         this.columns = columns;
+    }
+
+    public List<ColumnOneToManySpec> getOnetomany() {
+        return onetomany;
+    }
+
+    public void setOnetomany(List<ColumnOneToManySpec> onetomany) {
+        this.onetomany = onetomany;
     }
 
     public List<ColumnManyToOneSpec> getManytoone() {

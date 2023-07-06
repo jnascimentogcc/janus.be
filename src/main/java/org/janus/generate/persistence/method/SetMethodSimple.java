@@ -3,7 +3,7 @@ package org.janus.generate.persistence.method;
 import com.squareup.javapoet.MethodSpec;
 import org.apache.commons.text.CaseUtils;
 import org.janus.db.ColumnSimpleSpec;
-import org.janus.generate.persistence.field.FieldSimple;
+import org.janus.generate.GenUtil;
 
 import javax.lang.model.element.Modifier;
 
@@ -14,7 +14,7 @@ public class SetMethodSimple {
         String fieldName = CaseUtils.toCamelCase(columnSimpleSpec.name(), false, '_');
         return MethodSpec.methodBuilder("set" + CaseUtils.toCamelCase(columnSimpleSpec.name(), true, '_'))
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(FieldSimple.getTypeField(columnSimpleSpec), columnSimpleSpec.name())
+                .addParameter(GenUtil.getTypeField(columnSimpleSpec), columnSimpleSpec.name())
                 .addStatement("this." + fieldName + " = " + fieldName)
                 .build();
     }
