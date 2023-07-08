@@ -11,9 +11,9 @@ import javax.lang.model.element.Modifier;
 
 public class FieldEntityManyToOne {
 
-    public static FieldSpec generate(ColumnManyToOneSpec columnManyToOneSpec) {
+    public static FieldSpec generate(ColumnManyToOneSpec columnManyToOneSpec, String pack) {
 
-        return FieldSpec.builder(ClassName.get("com.kadipe.demo.user.repository",
+        return FieldSpec.builder(ClassName.get(pack + ".repository",
                         CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), true, '_') + "Entity"),
                         CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), false, '_') + "Entity")
                 .addAnnotation(AnnotationManyToOne.generate(columnManyToOneSpec))

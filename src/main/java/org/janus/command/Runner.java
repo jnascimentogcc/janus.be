@@ -53,7 +53,8 @@ public class Runner {
         }
 
         try {
-            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.db", MasterEntity.generate("id"))
+            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.db",
+                            MasterEntity.generate("id", configJanus.getRootPackage()))
                     .build();
             keyHelper.writeTo(System.out);
             keyHelper.writeTo(path);
@@ -62,7 +63,7 @@ public class Runner {
         }
 
         try {
-            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.db", MasterDTO.generate("id"))
+            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.model", MasterDTO.generate("id"))
                     .build();
             keyHelper.writeTo(System.out);
             keyHelper.writeTo(path);
@@ -76,8 +77,9 @@ public class Runner {
                 List<ColumnSimpleSpec> listColumnSimple = item.columns();
                 List<ColumnManyToOneSpec> listColumnManyToOne = item.manytoone();
                 List<ColumnOneToManySpec> listColumnOneToMany = item.onetomany();
+
                 JavaFile.Builder builderEntity = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".repository",
-                        ClassEntity.generate(item.name(), listColumnSimple, listColumnManyToOne, listColumnOneToMany));
+                        ClassEntity.generate(item, listColumnSimple, listColumnManyToOne, listColumnOneToMany, configJanus.getRootPackage()));
                 if (listColumnManyToOne.size() > 0 || listColumnOneToMany.size() > 0) {
                     builderEntity.addStaticImport(FetchType.LAZY);
                 }
@@ -87,7 +89,7 @@ public class Runner {
                 classEntity.writeTo(path);
 
                 JavaFile.Builder builderDTO = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".model",
-                        ClassDTO.generate(item.name(), listColumnSimple, listColumnManyToOne, listColumnOneToMany));
+                        ClassDTO.generate(item, listColumnSimple, listColumnManyToOne, listColumnOneToMany, configJanus.getRootPackage()));
                 JavaFile classDTO = builderDTO
                         .build();
                 classDTO.writeTo(System.out);

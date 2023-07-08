@@ -11,12 +11,12 @@ import java.util.Collection;
 
 public class GetEntityMethodOneToMany {
 
-    public static MethodSpec generate(ColumnOneToManySpec columnOneToManySpec) {
+    public static MethodSpec generate(ColumnOneToManySpec columnOneToManySpec, String pack) {
 
         return MethodSpec.methodBuilder("get" + CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "Entities")
                 .addModifiers(Modifier.PUBLIC)
                 .returns(ParameterizedTypeName.get(ClassName.get(Collection.class),
-                        ClassName.get("com.kadipe.demo.user.repository" ,
+                        ClassName.get(pack + ".repository" ,
                         CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "Entity")))
                 .addStatement("return this." + CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') + "Entities")
                 .build();

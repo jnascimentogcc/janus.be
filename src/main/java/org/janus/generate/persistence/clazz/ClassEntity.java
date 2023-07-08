@@ -5,6 +5,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import jakarta.persistence.Entity;
 import org.apache.commons.text.CaseUtils;
+import org.janus.config.parser.TableSpec;
 import org.janus.db.ColumnManyToOneSpec;
 import org.janus.db.ColumnOneToManySpec;
 import org.janus.db.ColumnSimpleSpec;
@@ -19,13 +20,13 @@ import java.util.List;
 
 public class ClassEntity {
 
-    public static TypeSpec generate(String tableName, List<ColumnSimpleSpec> listColumn, List<ColumnManyToOneSpec> listColumnManyToOne, List<ColumnOneToManySpec> listColumnOneToMany) {
+    public static TypeSpec generate(TableSpec tableSpec, List<ColumnSimpleSpec> listColumn, List<ColumnManyToOneSpec> listColumnManyToOne, List<ColumnOneToManySpec> listColumnOneToMany, String rootPackage) {
 
-        String entityName = CaseUtils.toCamelCase(tableName, true, '_') + "Entity";
+        String entityName = CaseUtils.toCamelCase(tableSpec.name(), true, '_') + "Entity";
         TypeSpec.Builder classEntityBuilder = TypeSpec.classBuilder(entityName)
                 .addAnnotation(Entity.class)
-                .addAnnotation(AnnotationTable.generate(tableName))
-                .superclass(ClassName.get("com.kadipe.helper", "MasterEntity"))
+                .addAnnotation(AnnotationTable.generate(tableSpec.name()))
+                .superclass(ClassName.get(rootPackage + ".helper.db", "MasterEntity"))
                 .addModifiers(Modifier.PUBLIC);
         listColumn.forEach((item) -> {
             classEntityBuilder.addField(FieldEntitySimple.generate(item))
@@ -33,14 +34,14 @@ public class ClassEntity {
                     .addMethod(SetMethodSimple.generate(item));
         });
         listColumnManyToOne.forEach((item) -> {
-            classEntityBuilder.addField(FieldEntityManyToOne.generate(item))
-                    .addMethod(GetEntityMethodManyToOne.generate(item))
-                    .addMethod(SetEntityMethodManyToOne.generate(item));
+            classEntityBuilder.addField(FieldEntityManyToOne.generate(item, rootPackage + tableSpec.pack()))
+                    .addMethod(GetEntityMethodManyToOne.generate(item, rootPackage + tableSpec.pack()))
+                    .addMethod(SetEntityMethodManyToOne.generate(item, rootPackage + tableSpec.pack()));
         });
         listColumnOneToMany.forEach((item) -> {
-            classEntityBuilder.addField(FieldEntityOneToMany.generate(item))
-                    .addMethod(GetEntityMethodOneToMany.generate(item))
-                    .addMethod(SetEntityMethodOneToMany.generate(item));
+            classEntityBuilder.addField(FieldEntityOneToMany.generate(item, rootPackage + tableSpec.pack()))
+                    .addMethod(GetEntityMethodOneToMany.generate(item, rootPackage + tableSpec.pack()))
+                    .addMethod(SetEntityMethodOneToMany.generate(item, rootPackage + tableSpec.pack()));
         });
 
         MethodSpec equals = MethodSpec.methodBuilder("equals")

@@ -12,10 +12,10 @@ import java.util.Collection;
 
 public class FieldEntityOneToMany {
 
-    public static FieldSpec generate(ColumnOneToManySpec columnOneToManySpec) {
+    public static FieldSpec generate(ColumnOneToManySpec columnOneToManySpec, String pack) {
 
         return FieldSpec.builder(ParameterizedTypeName.get(ClassName.get(Collection.class),
-                                ClassName.get("com.kadipe.demo.user.repository",
+                                ClassName.get(pack + ".repository",
                         CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "Entity")),
                         CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') + "Entities")
                 .addAnnotation(AnnotationOneToMany.generate(columnOneToManySpec))

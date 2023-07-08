@@ -14,7 +14,7 @@ import javax.lang.model.element.Modifier;
 
 public class MasterEntity {
 
-    public static TypeSpec generate(String idName) {
+    public static TypeSpec generate(String idName, String rootPackage) {
 
         FieldSpec keyField = FieldSpec.builder(String.class, "id")
                 .addAnnotation(Id.class)
@@ -25,7 +25,7 @@ public class MasterEntity {
                         .build())
                 .addAnnotation(AnnotationSpec.builder(GenericGenerator.class)
                         .addMember("name", "$S", "sequenceUUID")
-                        .addMember("strategy", "$S", "com.kadipe.helper.KeyGenerator")
+                        .addMember("strategy", "$S", rootPackage + ".helper.db.KeyGenerator")
                         .build())
                 .addAnnotation(AnnotationSpec.builder(GeneratedValue.class)
                         .addMember("generator", "$S", "sequenceUUID")
