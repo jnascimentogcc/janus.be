@@ -106,7 +106,7 @@ public class Runner {
         listServices.forEach((item) -> {
             try {
                 JavaFile.Builder builderService = JavaFile.builder(configJanus.getRootPackage() + item.getPackageName() + ".service",
-                        ClassService.generate(item.getName()));
+                        ClassService.generate(item));
                 JavaFile classService = builderService
                         .build();
                 classService.writeTo(System.out);

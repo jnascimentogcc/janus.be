@@ -2,11 +2,11 @@ package org.janus.config.model;
 
 public class Op {
 
-    private enum Verb {
+    public enum Verb {
         GET, POST, PUT, DELETE
     }
 
-    private enum Type {
+    public enum Type {
         SIMPLE, ALL, FILTER, COMPLEX
     }
 
