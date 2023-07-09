@@ -1,11 +1,12 @@
 package org.janus.config.parser;
 
+import org.janus.config.model.BuzzProcess;
 import org.janus.config.model.ConfigJanus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParserTable {
+public class ParserObjects {
 
     static String pack = "";
 
@@ -26,5 +27,19 @@ public class ParserTable {
         });
 
         return listTable;
+    }
+
+    public static List<BuzzProcess> getServices(ConfigJanus configJanus) {
+
+        List<BuzzProcess> listServices = new ArrayList<>();
+        configJanus.getBuzzUnits().forEach((itemUnit) -> {
+            itemUnit.getBuzzAreas().forEach((itemArea) -> {
+                itemArea.getBuzzProcesses().forEach((itemProcess) -> {
+                    listServices.add(itemProcess);
+                });
+            });
+        });
+
+        return listServices;
     }
 }

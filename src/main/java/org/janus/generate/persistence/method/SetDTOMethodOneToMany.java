@@ -9,12 +9,12 @@ import javax.lang.model.element.Modifier;
 
 public class SetDTOMethodOneToMany {
 
-    public static MethodSpec generate(ColumnOneToManySpec columnOneToManySpec) {
+    public static MethodSpec generate(ColumnOneToManySpec columnOneToManySpec, String pack) {
 
         String fieldName = CaseUtils.toCamelCase(columnOneToManySpec.refTable(), false, '_');
         return MethodSpec.methodBuilder("set" + CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "DTOs")
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(ClassName.get("com.kadipe.demo.user.repository", CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "DTO"),
+                .addParameter(ClassName.get(pack + ".model", CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "DTO"),
                         CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') + "DTOs")
                 .addStatement("this." + CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') +
                         "DTOs = " + CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') + "DTOs")

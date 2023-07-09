@@ -5,17 +5,16 @@ import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import org.apache.commons.text.CaseUtils;
 import org.janus.db.ColumnOneToManySpec;
-import org.janus.generate.persistence.annotation.AnnotationOneToMany;
 
 import javax.lang.model.element.Modifier;
 import java.util.Collection;
 
 public class FieldDTOOneToMany {
 
-    public static FieldSpec generate(ColumnOneToManySpec columnOneToManySpec) {
+    public static FieldSpec generate(ColumnOneToManySpec columnOneToManySpec, String pack) {
 
         return FieldSpec.builder(ParameterizedTypeName.get(ClassName.get(Collection.class),
-                                ClassName.get("com.kadipe.demo.user.repository",
+                                ClassName.get(pack + ".model",
                         CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "DTO")),
                         CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') + "DTOs")
                 .addModifiers(Modifier.PRIVATE)

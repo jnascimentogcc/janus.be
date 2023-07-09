@@ -14,9 +14,9 @@ import java.util.List;
 
 public class ClassService {
 
-    public static TypeSpec generate(String tableName, List<ColumnSimpleSpec> listColumn, List<ColumnManyToOneSpec> listColumnManyToOne, List<ColumnOneToManySpec> listColumnOneToMany) {
+    public static TypeSpec generate(String serviceName) {
 
-        String dtoName = CaseUtils.toCamelCase(tableName, true, '_') + "Service";
+        String dtoName = CaseUtils.toCamelCase(serviceName, true, ' ') + "Service";
         TypeSpec.Builder classDTOBuilder = TypeSpec.classBuilder(dtoName)
                 .addAnnotation(Service.class)
                 .addAnnotation(Transactional.class)

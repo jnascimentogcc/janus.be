@@ -2,8 +2,9 @@ package org.janus.command;
 
 import com.squareup.javapoet.JavaFile;
 import jakarta.persistence.FetchType;
+import org.janus.config.model.BuzzProcess;
 import org.janus.config.model.ConfigJanus;
-import org.janus.config.parser.ParserTable;
+import org.janus.config.parser.ParserObjects;
 import org.janus.config.parser.TableSpec;
 import org.janus.db.ColumnDB;
 import org.janus.db.ColumnManyToOneSpec;
@@ -71,7 +72,7 @@ public class Runner {
             throw new RuntimeException(e);
         }
 
-        List<TableSpec> listTable = ParserTable.getTables(configJanus);
+        List<TableSpec> listTable = ParserObjects.getTables(configJanus);
         listTable.forEach((item) -> {
             try {
                 List<ColumnSimpleSpec> listColumnSimple = item.columns();
@@ -95,18 +96,26 @@ public class Runner {
                 classDTO.writeTo(System.out);
                 classDTO.writeTo(path);
 
-                // TODO: One Service
-                JavaFile.Builder builderService = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".service",
-                        ClassService.generate(item.name(), listColumnSimple, listColumnManyToOne, listColumnOneToMany));
-                JavaFile classService = builderService
-                        .build();
-                classService.writeTo(System.out);
-                classService.writeTo(path);
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+
+        List<BuzzProcess> listServices = ParserObjects.getServices(configJanus);
+        listServices.forEach((item) -> {
+            try {
+                JavaFile.Builder builderService = JavaFile.builder(configJanus.getRootPackage() + item.getPackageName() + ".service",
+                        ClassService.generate(item.getName()));
+                JavaFile classService = builderService
+                        .build();
+                classService.writeTo(System.out);
+                classService.writeTo(path);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
 
         listTable.forEach((item) -> {
             try {
@@ -120,7 +129,5 @@ public class Runner {
                 throw new RuntimeException(e);
             }
         });
-
-
     }
 }

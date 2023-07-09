@@ -27,14 +27,14 @@ public class ClassDTO {
                     .addMethod(SetMethodSimple.generate(item));
         });
         listColumnManyToOne.forEach((item) -> {
-            classDTOBuilder.addField(FieldDTOManyToOne.generate(item))
-                    .addMethod(GetDTOMethodManyToOne.generate(item))
-                    .addMethod(SetDTOMethodManyToOne.generate(item));
+            classDTOBuilder.addField(FieldDTOManyToOne.generate(item, rootPackage + tableSpec.pack()))
+                    .addMethod(GetDTOMethodManyToOne.generate(item, rootPackage + tableSpec.pack()))
+                    .addMethod(SetDTOMethodManyToOne.generate(item, rootPackage + tableSpec.pack()));
         });
         listColumnOneToMany.forEach((item) -> {
-            classDTOBuilder.addField(FieldDTOOneToMany.generate(item))
-                    .addMethod(GetDTOMethodOneToMany.generate(item))
-                    .addMethod(SetDTOMethodOneToMany.generate(item));
+            classDTOBuilder.addField(FieldDTOOneToMany.generate(item, rootPackage + tableSpec.pack()))
+                    .addMethod(GetDTOMethodOneToMany.generate(item, rootPackage + tableSpec.pack()))
+                    .addMethod(SetDTOMethodOneToMany.generate(item, rootPackage + tableSpec.pack()));
         });
 
         return classDTOBuilder.build();
