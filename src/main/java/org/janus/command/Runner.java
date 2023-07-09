@@ -72,6 +72,7 @@ public class Runner {
             throw new RuntimeException(e);
         }
 
+        // Entities and DTOs
         List<TableSpec> listTable = ParserObjects.getTables(configJanus);
         listTable.forEach((item) -> {
             try {
@@ -102,11 +103,12 @@ public class Runner {
             }
         });
 
+        // Services
         List<BuzzProcess> listServices = ParserObjects.getServices(configJanus);
         listServices.forEach((item) -> {
             try {
                 JavaFile.Builder builderService = JavaFile.builder(configJanus.getRootPackage() + item.getPackageName() + ".service",
-                        ClassService.generate(item));
+                        ClassService.generate(item, configJanus.getRootPackage()));
                 JavaFile classService = builderService
                         .build();
                 classService.writeTo(System.out);
@@ -117,6 +119,7 @@ public class Runner {
         });
 
 
+        // Interface Repository
         listTable.forEach((item) -> {
             try {
                 List<String> listUKColumn = ColumnDB.getUKColumns(configJanus.getDatabaseSchema(), item.name());

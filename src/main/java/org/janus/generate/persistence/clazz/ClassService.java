@@ -12,10 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.lang.model.element.Modifier;
+import java.util.NoSuchElementException;
 
 public class ClassService {
 
-    public static TypeSpec generate(BuzzProcess serviceName) {
+    public static TypeSpec generate(BuzzProcess serviceName, String rootPackage) {
 
         String clazzName = CaseUtils.toCamelCase(serviceName.getName(), true, ' ') + "Service";
 
@@ -37,7 +38,7 @@ public class ClassService {
                         switch (itemOP.getType().name()) {
                             case "SIMPLE":
                                 classServiceBuilder
-                                        .addMethod(generateGetSimple(itemCRUD.getTable()));
+                                        .addMethod(generateGetSimple(itemCRUD.getTable(), rootPackage, serviceName.getPackageName()));
                                 break;
                             default:
                                 break;
@@ -51,13 +52,25 @@ public class ClassService {
         return classServiceBuilder.build();
     }
 
-    private static MethodSpec generateGetSimple(String tableName) {
+    private static MethodSpec generateGetSimple(String tableName, String rootPackage, String packageName) {
 
         return MethodSpec.methodBuilder("get" + CaseUtils.toCamelCase(tableName, true, '_'))
+                .addStatement(CaseUtils.toCamelCase(tableName, true, '_') + "DTO " +
+                        CaseUtils.toCamelCase(tableName, false, '_') + "DTO = new " +
+                        CaseUtils.toCamelCase(tableName, true, '_') + "DTO()")
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(String.class, "id")
-                .returns(String.class)
-                .addStatement("return this.id")
+                .returns(ClassName.get(rootPackage + packageName + ".model", CaseUtils.toCamelCase(tableName, true, '_') + "DTO"))
+                .beginControlFlow("try")
+                .addStatement(CaseUtils.toCamelCase(tableName, true, '_') + "Entity " +
+                        CaseUtils.toCamelCase(tableName, false, '_') + "Entity = " +
+                        CaseUtils.toCamelCase(tableName, false, '_') + "Repository.findById(id).orElseThrow()")
+                .addStatement("return " + CaseUtils.toCamelCase(tableName, false, '_') + "DTO")
+                .nextControlFlow("catch($T ex)", NoSuchElementException.class)
+                .addStatement("LOGGER.info(\"" + CaseUtils.toCamelCase(tableName, true, '_') + " with id: \" + id + \" not found\")")
+                .addStatement("throw new $T$L", ClassName.get(rootPackage + ".helper.exception", "ItemNotFoundException"),
+                        "(\"" + CaseUtils.toCamelCase(tableName, true, '_') + " with id: \" + id + \" not found\")")
+                .endControlFlow()
                 .build();
     }
 }
