@@ -33,8 +33,11 @@ public class ParserObjects {
 
         List<BuzzProcess> listServices = new ArrayList<>();
         configJanus.getBuzzUnits().forEach((itemUnit) -> {
+            pack = "." + itemUnit.getPackageName();
             itemUnit.getBuzzAreas().forEach((itemArea) -> {
+                pack = pack + "." + itemArea.getPackageName();
                 itemArea.getBuzzProcesses().forEach((itemProcess) -> {
+                    itemProcess.setPackageName(pack + "." + itemProcess.getPackageName());
                     listServices.add(itemProcess);
                 });
             });
