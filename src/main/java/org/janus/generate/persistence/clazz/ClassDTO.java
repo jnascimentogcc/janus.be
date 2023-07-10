@@ -7,7 +7,9 @@ import org.janus.config.parser.TableSpec;
 import org.janus.db.ColumnManyToOneSpec;
 import org.janus.db.ColumnOneToManySpec;
 import org.janus.db.ColumnSimpleSpec;
-import org.janus.generate.persistence.field.*;
+import org.janus.generate.persistence.field.FieldDTOManyToOne;
+import org.janus.generate.persistence.field.FieldDTOOneToMany;
+import org.janus.generate.persistence.field.FieldDTOSimple;
 import org.janus.generate.persistence.method.*;
 
 import javax.lang.model.element.Modifier;

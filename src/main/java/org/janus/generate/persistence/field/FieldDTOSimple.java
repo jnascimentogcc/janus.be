@@ -7,12 +7,9 @@ import jakarta.validation.constraints.Size;
 import org.apache.commons.text.CaseUtils;
 import org.janus.db.ColumnSimpleSpec;
 import org.janus.generate.GenUtil;
-import org.janus.generate.persistence.annotation.AnnotationColumn;
 
 import javax.lang.model.element.Modifier;
 import java.lang.reflect.Type;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public class FieldDTOSimple {
 

@@ -7,11 +7,11 @@ import com.squareup.javapoet.TypeSpec;
 import jakarta.transaction.Transactional;
 import org.apache.commons.text.CaseUtils;
 import org.janus.config.model.BuzzProcess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.lang.model.element.Modifier;
 import java.util.NoSuchElementException;
