@@ -26,6 +26,7 @@ public class Runner {
 
         Path path = Paths.get("/projetos/noob/target");
 
+        // Exceptions
         try {
             JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.exception", ItemNotFoundException.generate())
                     .build();
@@ -35,6 +36,7 @@ public class Runner {
             throw new RuntimeException(e);
         }
 
+        // Helper Controller
         try {
             JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.controller", ControllerExceptionHandler.generate())
                     .build();
@@ -44,6 +46,7 @@ public class Runner {
             throw new RuntimeException(e);
         }
 
+        // Helper DB Key Generator
         try {
             JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.db", TableKeyHelper.generate())
                     .build();
@@ -53,6 +56,7 @@ public class Runner {
             throw new RuntimeException(e);
         }
 
+        // Helper DB Master Entity
         try {
             JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.db",
                             MasterEntity.generate("id", configJanus.getRootPackage()))
@@ -63,8 +67,19 @@ public class Runner {
             throw new RuntimeException(e);
         }
 
+        // Helper Model Master DTO
         try {
             JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.model", MasterDTO.generate("id"))
+                    .build();
+            keyHelper.writeTo(System.out);
+            keyHelper.writeTo(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Helper Application
+        try {
+            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() , ClassApplication.generate(configJanus.getRootPackage()))
                     .build();
             keyHelper.writeTo(System.out);
             keyHelper.writeTo(path);
