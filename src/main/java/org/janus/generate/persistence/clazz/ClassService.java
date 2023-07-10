@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.apache.commons.text.CaseUtils;
 import org.janus.config.model.BuzzProcess;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,13 @@ public class ClassService {
                 .addField(fieldLogger);
 
         serviceName.getCruds().forEach((itemCRUD) -> {
+            FieldSpec fieldRepository = FieldSpec.builder(ClassName.get(rootPackage + serviceName.getPackageName() + ".repository",
+                                    CaseUtils.toCamelCase(itemCRUD.getTable(), true, '_') + "Repository"),
+                            CaseUtils.toCamelCase(itemCRUD.getTable(), false, '_') + "Repository")
+                    .addModifiers(Modifier.PRIVATE)
+                    .addAnnotation(Autowired.class)
+                    .build();
+            classServiceBuilder.addField(fieldRepository);
             itemCRUD.getOps().forEach((itemOP) -> {
                 switch (itemOP.getVerb().name()) {
                     case "GET":
@@ -66,6 +74,8 @@ public class ClassService {
                 .addStatement(CaseUtils.toCamelCase(tableName, true, '_') + "Entity " +
                         CaseUtils.toCamelCase(tableName, false, '_') + "Entity = " +
                         CaseUtils.toCamelCase(tableName, false, '_') + "Repository.findById(id).orElseThrow()")
+                .addStatement("$T.copyProperties(" + CaseUtils.toCamelCase(tableName, false, '_') +
+                        "Entity, " + CaseUtils.toCamelCase(tableName, false, '_') + "DTO)", BeanUtils.class)
                 .addStatement("return " + CaseUtils.toCamelCase(tableName, false, '_') + "DTO")
                 .nextControlFlow("catch($T ex)", NoSuchElementException.class)
                 .addStatement("LOGGER.info(\"" + CaseUtils.toCamelCase(tableName, true, '_') + " with id: \" + id + \" not found\")")
