@@ -118,6 +118,19 @@ public class Runner {
             }
         });
 
+        // Controller
+        listServices.forEach((item) -> {
+            try {
+                JavaFile.Builder builderService = JavaFile.builder(configJanus.getRootPackage() + item.getPackageName() + ".controller",
+                        ClassController.generate(item, configJanus.getRootPackage()));
+                JavaFile classService = builderService
+                        .build();
+                classService.writeTo(System.out);
+                classService.writeTo(path);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         // Interface Repository
         listTable.forEach((item) -> {
