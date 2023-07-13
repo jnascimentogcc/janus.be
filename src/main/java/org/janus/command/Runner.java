@@ -14,6 +14,7 @@ import org.janus.generate.controller.ControllerExceptionHandler;
 import org.janus.generate.exception.ItemNotFoundException;
 import org.janus.generate.persistence.clazz.*;
 import org.janus.generate.persistence.iface.InterfaceRepository;
+import org.janus.generate.props.PropertyGenerator;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -25,9 +26,6 @@ public class Runner {
     public static void execute(ConfigJanus configJanus) {
 
         Path pathJava = Paths.get("/projetos/noob/target/java");
-        Path pathProperty = Paths.get("/projetos/noob/target/resources");
-
-
 
         try {
             // Exceptions
@@ -132,5 +130,10 @@ public class Runner {
                 throw new RuntimeException(e);
             }
         });
+
+        // Property (application.property)
+
+        PropertyGenerator.generateProperty("/projetos/noob/target/resources", configJanus);
+
     }
 }

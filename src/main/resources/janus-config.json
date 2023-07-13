@@ -1,5 +1,5 @@
 {
-  "appName": "AutoLoan :: Car Loan",
+  "appName": "AutoLoan - Car Loan",
   "rootPackage": "com.autoloan",
   "databaseUrl": "jdbc:mysql://localhost:3306/autoloan?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true",
   "databaseUser": "autoloan",
@@ -149,7 +149,7 @@
                     },
                     {
                       "verb": "GET",
-                      "type": "ALL",
+                      "type": "LIST",
                       "orderBy": "name"
                     }
                   ]

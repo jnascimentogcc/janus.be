@@ -7,7 +7,7 @@ public class Op {
     }
 
     public enum Type {
-        SIMPLE, ALL, FILTER, COMPLEX
+        SIMPLE, LIST, FILTER, COMPLEX
     }
 
     private Verb verb;
