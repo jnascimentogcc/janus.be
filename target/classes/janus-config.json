@@ -44,15 +44,6 @@
                     {
                       "verb": "GET",
                       "type": "SIMPLE"
-                    },
-                    {
-                      "verb": "POST"
-                    },
-                    {
-                      "verb": "PUT"
-                    },
-                    {
-                      "verb": "DELETE"
                     }
                   ]
                 },
@@ -131,15 +122,6 @@
                     {
                       "verb": "GET",
                       "type": "SIMPLE"
-                    },
-                    {
-                      "verb": "POST"
-                    },
-                    {
-                      "verb": "PUT"
-                    },
-                    {
-                      "verb": "DELETE"
                     }
                   ]
                 },
@@ -169,15 +151,6 @@
                       "verb": "GET",
                       "type": "ALL",
                       "orderBy": "name"
-                    },
-                    {
-                      "verb": "POST"
-                    },
-                    {
-                      "verb": "PUT"
-                    },
-                    {
-                      "verb": "DELETE"
                     }
                   ]
                 }
@@ -226,24 +199,6 @@
                     {
                       "verb": "GET",
                       "type": "SIMPLE"
-                    },
-                    {
-                      "verb": "GET",
-                      "type": "ALL"
-                    },
-                    {
-                      "verb": "GET",
-                      "type": "FILTER",
-                      "filterField": "name"
-                    },
-                    {
-                      "verb": "POST"
-                    },
-                    {
-                      "verb": "PUT"
-                    },
-                    {
-                      "verb": "DELETE"
                     }
                   ]
                 }

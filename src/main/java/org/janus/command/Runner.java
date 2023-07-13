@@ -27,57 +27,39 @@ public class Runner {
         Path pathJava = Paths.get("/projetos/noob/target/java");
         Path pathProperty = Paths.get("/projetos/noob/target/resources");
 
-        // Exceptions
-        try {
-            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.exception", ItemNotFoundException.generate())
-                    .build();
-            keyHelper.writeTo(pathJava);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        // Helper Controller
-        try {
-            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.controller", ControllerExceptionHandler.generate())
-                    .build();
-            keyHelper.writeTo(pathJava);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        // Helper DB Key Generator
         try {
+            // Exceptions
+            JavaFile infException = JavaFile.builder(configJanus.getRootPackage() + ".helper.exception", ItemNotFoundException.generate())
+                    .build();
+            infException.writeTo(pathJava);
+
+            // Helper Controller
+            JavaFile ceHandler = JavaFile.builder(configJanus.getRootPackage() + ".helper.controller", ControllerExceptionHandler.generate())
+                    .build();
+            ceHandler.writeTo(pathJava);
+
+            // Helper DB Key Generator
             JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.db", TableKeyHelper.generate())
                     .build();
             keyHelper.writeTo(pathJava);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        // Helper DB Master Entity
-        try {
-            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.db",
+            // Helper DB Master Entity
+            JavaFile masterEntity = JavaFile.builder(configJanus.getRootPackage() + ".helper.db",
                             MasterEntity.generate("id", configJanus.getRootPackage()))
                     .build();
-            keyHelper.writeTo(pathJava);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            masterEntity.writeTo(pathJava);
 
-        // Helper Model Master DTO
-        try {
-            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.model", MasterDTO.generate("id"))
+            // Helper Model Master DTO
+            JavaFile masterDTO = JavaFile.builder(configJanus.getRootPackage() + ".helper.model", MasterDTO.generate("id"))
                     .build();
-            keyHelper.writeTo(pathJava);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            masterDTO.writeTo(pathJava);
 
-        // Helper Application
-        try {
-            JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() , ClassApplication.generate(configJanus.getRootPackage()))
+            // Clazz Main Application
+            JavaFile applicationMain = JavaFile.builder(configJanus.getRootPackage() , ClassApplication.generate(configJanus.getRootPackage()))
                     .build();
-            keyHelper.writeTo(pathJava);
+            applicationMain.writeTo(pathJava);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -12,7 +12,7 @@ public class ParseConfig {
 
     public static ConfigJanus runParser() {
         try {
-            File fileConfig = new File(Objects.requireNonNull(ParseConfig.class.getClassLoader().getResource("config.json")).toURI());
+            File fileConfig = new File(Objects.requireNonNull(ParseConfig.class.getClassLoader().getResource("janus-config.json")).toURI());
             ObjectMapper mapper = new ObjectMapper();
 
             return mapper.readValue(fileConfig, ConfigJanus.class);
