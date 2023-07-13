@@ -1,9 +1,6 @@
 package org.janus.generate.persistence.clazz;
 
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.*;
 import jakarta.transaction.Transactional;
 import org.apache.commons.text.CaseUtils;
 import org.janus.config.model.BuzzProcess;
@@ -14,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.lang.model.element.Modifier;
+import java.util.Collection;
 import java.util.NoSuchElementException;
 
 public class ClassService {
@@ -71,7 +69,7 @@ public class ClassService {
 
         return MethodSpec.methodBuilder("list" + CaseUtils.toCamelCase(tableName, true, '_'))
                 .addModifiers(Modifier.PUBLIC)
-                .returns(ClassName.get(rootPackage + packageName + ".model", CaseUtils.toCamelCase(tableName, true, '_') + "DTO"))
+                .returns(ParameterizedTypeName.get(ClassName.get(Collection.class), ClassName.get(rootPackage + packageName + ".model", CaseUtils.toCamelCase(tableName, true, '_') + "DTO")))
                 .build();
     }
 
