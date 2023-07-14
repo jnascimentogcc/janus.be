@@ -25,8 +25,10 @@
                       "name": "date",
                       "type": "DATETIME",
                       "size": null,
-                      "nullable": false
-                    }                  ],
+                      "nullable": false,
+                      "sortable": false
+                    }
+                  ],
                   "onetomany": [
                     {
                       "tableName": "draft_proposal",
@@ -54,14 +56,17 @@
                       "name": "price_unit",
                       "type": "DECIMAL",
                       "size": null,
-                      "nullable": false
+                      "nullable": false,
+                      "sortable": false
                     },
                     {
                       "name": "qty",
                       "type": "SMALLINT",
                       "size": null,
-                      "nullable": false
-                    }                  ],
+                      "nullable": false,
+                      "sortable": false
+                    }
+                  ],
                   "onetomany": [],
                   "manytoone": [
                     {
@@ -102,7 +107,8 @@
                       "name": "name",
                       "type": "VARCHAR",
                       "size": 100,
-                      "nullable": false
+                      "nullable": false,
+                      "sortable": false
                     }
                   ],
                   "onetomany": [
@@ -132,7 +138,8 @@
                       "name": "name",
                       "type": "VARCHAR",
                       "size": 100,
-                      "nullable": false
+                      "nullable": false,
+                      "sortable": true
                     }
                   ],
                   "onetomany": [
@@ -179,13 +186,15 @@
                       "name": "name",
                       "type": "VARCHAR",
                       "size": 200,
-                      "nullable": false
+                      "nullable": false,
+                      "sortable": false
                     },
                     {
                       "name": "nif",
                       "type": "CHAR",
                       "size": 9,
-                      "nullable": false
+                      "nullable": false,
+                      "sortable": true
                     }
                   ],
                   "onetomany": [
@@ -199,6 +208,11 @@
                     {
                       "verb": "GET",
                       "type": "SIMPLE"
+                    },
+                    {
+                      "verb": "GET",
+                      "type": "LIST",
+                      "orderBy": "nif"
                     }
                   ]
                 }

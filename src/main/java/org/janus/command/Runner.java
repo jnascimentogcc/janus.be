@@ -70,6 +70,7 @@ public class Runner {
                 List<ColumnManyToOneSpec> listColumnManyToOne = item.manytoone();
                 List<ColumnOneToManySpec> listColumnOneToMany = item.onetomany();
 
+                // Entities
                 JavaFile.Builder builderEntity = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".repository",
                         ClassEntity.generate(item, listColumnSimple, listColumnManyToOne, listColumnOneToMany, configJanus.getRootPackage()));
                 if (listColumnManyToOne.size() > 0 || listColumnOneToMany.size() > 0) {
@@ -79,6 +80,7 @@ public class Runner {
                         .build();
                 classEntity.writeTo(pathJava);
 
+                // DTOs
                 JavaFile.Builder builderDTO = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".model",
                         ClassDTO.generate(item, listColumnSimple, listColumnManyToOne, listColumnOneToMany, configJanus.getRootPackage()));
                 JavaFile classDTO = builderDTO

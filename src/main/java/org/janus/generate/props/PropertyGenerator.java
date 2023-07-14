@@ -2,7 +2,10 @@ package org.janus.generate.props;
 
 import org.janus.config.model.ConfigJanus;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
