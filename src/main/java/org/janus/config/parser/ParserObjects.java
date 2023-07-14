@@ -2,9 +2,11 @@ package org.janus.config.parser;
 
 import org.janus.config.model.BuzzProcess;
 import org.janus.config.model.ConfigJanus;
+import org.janus.db.ColumnSimpleSpec;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ParserObjects {
 
@@ -44,5 +46,21 @@ public class ParserObjects {
         });
 
         return listServices;
+    }
+
+    public static List<String> getUKColumns(TableSpec tableSpec) {
+
+        return tableSpec.columns().stream()
+                .filter(ColumnSimpleSpec::unique)
+                .map(ColumnSimpleSpec::name)
+                .collect(Collectors.toList());
+    }
+
+    public static List<String> getSortableColumns(TableSpec tableSpec) {
+
+        return tableSpec.columns().stream()
+                .filter(ColumnSimpleSpec::sortable)
+                .map(ColumnSimpleSpec::name)
+                .collect(Collectors.toList());
     }
 }

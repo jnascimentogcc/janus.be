@@ -27,6 +27,9 @@ public class Runner {
 
         Path pathJava = Paths.get("/projetos/noob/target/java");
 
+        // Property (application.property)
+        PropertyGenerator.generateProperty("/projetos/noob/target/resources", configJanus);
+
         try {
             // Exceptions
             JavaFile infException = JavaFile.builder(configJanus.getRootPackage() + ".helper.exception", ItemNotFoundException.generate())
@@ -123,19 +126,17 @@ public class Runner {
         // Interface Repository
         listTable.forEach((item) -> {
             try {
-                List<String> listUKColumn = ColumnDB.getUKColumns(configJanus.getDatabaseSchema(), item.name());
+//                List<String> listUKColumn = ColumnDB.getUKColumns(configJanus.getDatabaseSchema(), item.name());
+                List<String> listUKColumn = ParserObjects.getUKColumns(item);
+                List<String> listSortableColumn = ParserObjects.getSortableColumns(item);
                 JavaFile interfaceRepository = JavaFile
-                        .builder(configJanus.getRootPackage() +  item.pack() + ".repository", InterfaceRepository.generate(item.name(), listUKColumn))
+                        .builder(configJanus.getRootPackage() +  item.pack() + ".repository", InterfaceRepository.generate(item.name(), listUKColumn, listSortableColumn))
                         .build();
                 interfaceRepository.writeTo(pathJava);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
-
-        // Property (application.property)
-
-        PropertyGenerator.generateProperty("/projetos/noob/target/resources", configJanus);
 
     }
 }

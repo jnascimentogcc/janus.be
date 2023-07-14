@@ -28,7 +28,9 @@ public class ColumnDB {
                     ColumnSimpleSpec columnSimpleSpec = new ColumnSimpleSpec(rsColumn.getString(1),
                             rsColumn.getString(2),
                             rsColumn.getInt(3),
-                            "YES" .equals(rsColumn.getString(4)));
+                            "YES" .equals(rsColumn.getString(4)),
+                            false,
+                            false);
                     listColumn.add(columnSimpleSpec);
                 }
             }

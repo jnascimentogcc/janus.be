@@ -26,7 +26,8 @@
                       "type": "DATETIME",
                       "size": null,
                       "nullable": false,
-                      "sortable": false
+                      "sortable": false,
+                      "unique": false
                     }
                   ],
                   "onetomany": [
@@ -57,14 +58,16 @@
                       "type": "DECIMAL",
                       "size": null,
                       "nullable": false,
-                      "sortable": false
+                      "sortable": false,
+                      "unique": false
                     },
                     {
                       "name": "qty",
                       "type": "SMALLINT",
                       "size": null,
                       "nullable": false,
-                      "sortable": false
+                      "sortable": false,
+                      "unique": false
                     }
                   ],
                   "onetomany": [],
@@ -108,7 +111,8 @@
                       "type": "VARCHAR",
                       "size": 100,
                       "nullable": false,
-                      "sortable": false
+                      "sortable": false,
+                      "unique": false
                     }
                   ],
                   "onetomany": [
@@ -139,7 +143,8 @@
                       "type": "VARCHAR",
                       "size": 100,
                       "nullable": false,
-                      "sortable": true
+                      "sortable": true,
+                      "unique": false
                     }
                   ],
                   "onetomany": [
@@ -187,14 +192,16 @@
                       "type": "VARCHAR",
                       "size": 200,
                       "nullable": false,
-                      "sortable": false
+                      "sortable": false,
+                      "unique": false
                     },
                     {
                       "name": "nif",
                       "type": "CHAR",
                       "size": 9,
                       "nullable": false,
-                      "sortable": true
+                      "sortable": false,
+                      "unique": true
                     }
                   ],
                   "onetomany": [

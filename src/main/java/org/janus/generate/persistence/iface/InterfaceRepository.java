@@ -12,7 +12,7 @@ import java.util.List;
 
 public class InterfaceRepository {
 
-    public static TypeSpec generate(String tableName, List<String> listUKColumn) {
+    public static TypeSpec generate(String tableName, List<String> listUKColumn, List<String> listSortableColumn) {
 
         String prefixName = CaseUtils.toCamelCase(tableName, true, '_');
         TypeVariableName entity = TypeVariableName.get(prefixName + "Entity");
@@ -21,11 +21,16 @@ public class InterfaceRepository {
         TypeSpec.Builder builder = TypeSpec.interfaceBuilder(prefixName + "Repository")
                 .addSuperinterface(ParameterizedTypeName.get(ClassName.get(CrudRepository.class), entity, idType))
                 .addModifiers(Modifier.PUBLIC);
+        // Method FindBy and Exists
         listUKColumn.forEach((item) -> {
             builder.addMethod(MethodSignatureFindBy.generate(entity, item))
                     .addMethod(MethodSignatureExists.generate(item));
         });
 
+        // Method FindAllSortBy
+        listSortableColumn.forEach((item) -> {
+            builder.addMethod(MethodSignatureFindAllSortable.generate(entity, item));
+        });
         return builder.build();
     }
 }

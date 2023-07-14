@@ -5,5 +5,6 @@ public record ColumnSimpleSpec(
    String type,
    Integer size,
    Boolean nullable,
-   Boolean sortable
+   Boolean sortable,
+   Boolean unique
 ) {}
