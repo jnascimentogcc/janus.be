@@ -63,8 +63,9 @@ public class ColumnDB {
                             "AND TABLE_NAME = '" + tableName + "' AND " +
                             "COLUMN_NAME = '" + rsColumn.getString(1) + "'");
                     while (rsColumnFK.next()) {
+                        // TODO: Define pack
                         ColumnManyToOneSpec columnManyToOneSpec = new ColumnManyToOneSpec(
-                                rsColumn.getString(1), rsColumnFK.getString(1), "YES" .equals(rsColumn.getString(2)));
+                                rsColumn.getString(1), rsColumnFK.getString(1), "", "YES".equals(rsColumn.getString(2)));
                         listColumn.add(columnManyToOneSpec);
                     }
                 }

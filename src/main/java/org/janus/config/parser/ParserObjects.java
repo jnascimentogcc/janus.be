@@ -15,15 +15,15 @@ public class ParserObjects {
     public static List<TableSpec> getTables(ConfigJanus configJanus) {
 
         List<TableSpec> listTable = new ArrayList<>();
-        configJanus.getBuzzUnits().forEach((itemUnit) -> {
+        configJanus.getBuzzUnits().forEach(itemUnit -> {
             pack = "." + itemUnit.getPackageName();
-            itemUnit.getBuzzAreas().forEach((itemArea) -> {
+            itemUnit.getBuzzAreas().forEach(itemArea -> {
                 pack = pack + "." + itemArea.getPackageName();
-                itemArea.getBuzzProcesses().forEach((itemProcess) -> {
+                itemArea.getBuzzProcesses().forEach(itemProcess -> {
                     pack = pack + "." + itemProcess.getPackageName();
-                    itemProcess.getCruds().forEach((itemCrud) -> {
-                        listTable.add(new TableSpec(itemCrud.getTable(), pack, itemCrud.getColumns(), itemCrud.getOnetomany(), itemCrud.getManytoone()));
-                    });
+                    itemProcess.getCruds().forEach(itemCrud ->
+                        listTable.add(new TableSpec(itemCrud.getTable(), pack, itemCrud.getColumns(), itemCrud.getOnetomany(), itemCrud.getManytoone()))
+                    );
                 });
             });
         });

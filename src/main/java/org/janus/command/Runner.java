@@ -4,9 +4,9 @@ import com.squareup.javapoet.JavaFile;
 import jakarta.persistence.FetchType;
 import org.janus.config.model.BuzzProcess;
 import org.janus.config.model.ConfigJanus;
+import org.janus.config.parser.ParsePOM;
 import org.janus.config.parser.ParserObjects;
 import org.janus.config.parser.TableSpec;
-import org.janus.db.ColumnDB;
 import org.janus.db.ColumnManyToOneSpec;
 import org.janus.db.ColumnOneToManySpec;
 import org.janus.db.ColumnSimpleSpec;
@@ -25,40 +25,48 @@ public class Runner {
 
     public static void execute(ConfigJanus configJanus) {
 
-        Path pathJava = Paths.get("/projetos/noob/target/java");
+        ParsePOM.runParser(configJanus, configJanus.getFolderApp());
+
+        Path pathJava = Paths.get(configJanus.getFolderApp() + "/src/main/java");
 
         // Property (application.property)
-        PropertyGenerator.generateProperty("/projetos/noob/target/resources", configJanus);
+        PropertyGenerator.generateProperty(configJanus.getFolderApp() + "/src/main/resources", configJanus);
 
         try {
             // Exceptions
             JavaFile infException = JavaFile.builder(configJanus.getRootPackage() + ".helper.exception", ItemNotFoundException.generate())
+                    .skipJavaLangImports(true)
                     .build();
             infException.writeTo(pathJava);
 
             // Helper Controller
             JavaFile ceHandler = JavaFile.builder(configJanus.getRootPackage() + ".helper.controller", ControllerExceptionHandler.generate())
+                    .skipJavaLangImports(true)
                     .build();
             ceHandler.writeTo(pathJava);
 
             // Helper DB Key Generator
             JavaFile keyHelper = JavaFile.builder(configJanus.getRootPackage() + ".helper.db", TableKeyHelper.generate())
+                    .skipJavaLangImports(true)
                     .build();
             keyHelper.writeTo(pathJava);
 
             // Helper DB Master Entity
             JavaFile masterEntity = JavaFile.builder(configJanus.getRootPackage() + ".helper.db",
                             MasterEntity.generate("id", configJanus.getRootPackage()))
+                    .skipJavaLangImports(true)
                     .build();
             masterEntity.writeTo(pathJava);
 
             // Helper Model Master DTO
-            JavaFile masterDTO = JavaFile.builder(configJanus.getRootPackage() + ".helper.model", MasterDTO.generate("id"))
+            JavaFile masterDTO = JavaFile.builder(configJanus.getRootPackage() + ".helper.dto", MasterDTO.generate("id"))
+                    .skipJavaLangImports(true)
                     .build();
             masterDTO.writeTo(pathJava);
 
             // Clazz Main Application
             JavaFile applicationMain = JavaFile.builder(configJanus.getRootPackage() , ClassApplication.generate(configJanus.getRootPackage()))
+                    .skipJavaLangImports(true)
                     .build();
             applicationMain.writeTo(pathJava);
         } catch (IOException e) {
@@ -67,7 +75,7 @@ public class Runner {
 
         // Entities and DTOs
         List<TableSpec> listTable = ParserObjects.getTables(configJanus);
-        listTable.forEach((item) -> {
+        listTable.forEach(item -> {
             try {
                 List<ColumnSimpleSpec> listColumnSimple = item.columns();
                 List<ColumnManyToOneSpec> listColumnManyToOne = item.manytoone();
@@ -80,13 +88,15 @@ public class Runner {
                     builderEntity.addStaticImport(FetchType.LAZY);
                 }
                 JavaFile classEntity = builderEntity
+                        .skipJavaLangImports(true)
                         .build();
                 classEntity.writeTo(pathJava);
 
                 // DTOs
-                JavaFile.Builder builderDTO = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".model",
+                JavaFile.Builder builderDTO = JavaFile.builder(configJanus.getRootPackage() + item.pack() + ".dto",
                         ClassDTO.generate(item, listColumnSimple, listColumnManyToOne, listColumnOneToMany, configJanus.getRootPackage()));
                 JavaFile classDTO = builderDTO
+                        .skipJavaLangImports(true)
                         .build();
                 classDTO.writeTo(pathJava);
 
@@ -98,11 +108,12 @@ public class Runner {
 
         // Services
         List<BuzzProcess> listServices = ParserObjects.getServices(configJanus);
-        listServices.forEach((item) -> {
+        listServices.forEach(item -> {
             try {
                 JavaFile.Builder builderService = JavaFile.builder(configJanus.getRootPackage() + item.getPackageName() + ".service",
                         ClassService.generate(item, configJanus.getRootPackage()));
                 JavaFile classService = builderService
+                        .skipJavaLangImports(true)
                         .build();
                 classService.writeTo(pathJava);
             } catch (IOException e) {
@@ -111,11 +122,12 @@ public class Runner {
         });
 
         // Controller
-        listServices.forEach((item) -> {
+        listServices.forEach(item -> {
             try {
                 JavaFile.Builder builderService = JavaFile.builder(configJanus.getRootPackage() + item.getPackageName() + ".controller",
                         ClassController.generate(item, configJanus.getRootPackage()));
                 JavaFile classService = builderService
+                        .skipJavaLangImports(true)
                         .build();
                 classService.writeTo(pathJava);
             } catch (IOException e) {
@@ -124,13 +136,14 @@ public class Runner {
         });
 
         // Interface Repository
-        listTable.forEach((item) -> {
+        listTable.forEach(item -> {
             try {
 //                List<String> listUKColumn = ColumnDB.getUKColumns(configJanus.getDatabaseSchema(), item.name());
                 List<String> listUKColumn = ParserObjects.getUKColumns(item);
                 List<String> listSortableColumn = ParserObjects.getSortableColumns(item);
                 JavaFile interfaceRepository = JavaFile
                         .builder(configJanus.getRootPackage() +  item.pack() + ".repository", InterfaceRepository.generate(item.name(), listUKColumn, listSortableColumn))
+                        .skipJavaLangImports(true)
                         .build();
                 interfaceRepository.writeTo(pathJava);
             } catch (IOException e) {

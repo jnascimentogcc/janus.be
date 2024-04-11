@@ -21,23 +21,17 @@ public class ClassDTO {
 
         String dtoName = CaseUtils.toCamelCase(tableSpec.name(), true, '_') + "DTO";
         TypeSpec.Builder classDTOBuilder = TypeSpec.classBuilder(dtoName)
-                .superclass(ClassName.get(rootPackage + ".helper.model", "MasterDTO"))
+                .superclass(ClassName.get(rootPackage + ".helper.dto", "MasterDTO"))
                 .addModifiers(Modifier.PUBLIC);
-        listColumn.forEach((item) -> {
-            classDTOBuilder.addField(FieldDTOSimple.generate(item))
+        listColumn.forEach(item -> classDTOBuilder.addField(FieldDTOSimple.generate(item))
                     .addMethod(GetMethodSimple.generate(item))
-                    .addMethod(SetMethodSimple.generate(item));
-        });
-        listColumnManyToOne.forEach((item) -> {
-            classDTOBuilder.addField(FieldDTOManyToOne.generate(item, rootPackage + tableSpec.pack()))
+                    .addMethod(SetMethodSimple.generate(item)));
+        listColumnManyToOne.forEach(item -> classDTOBuilder.addField(FieldDTOManyToOne.generate(item, rootPackage))
                     .addMethod(GetDTOMethodManyToOne.generate(item, rootPackage + tableSpec.pack()))
-                    .addMethod(SetDTOMethodManyToOne.generate(item, rootPackage + tableSpec.pack()));
-        });
-        listColumnOneToMany.forEach((item) -> {
-            classDTOBuilder.addField(FieldDTOOneToMany.generate(item, rootPackage + tableSpec.pack()))
+                    .addMethod(SetDTOMethodManyToOne.generate(item, rootPackage + tableSpec.pack())));
+        listColumnOneToMany.forEach(item -> classDTOBuilder.addField(FieldDTOOneToMany.generate(item, rootPackage + tableSpec.pack()))
                     .addMethod(GetDTOMethodOneToMany.generate(item, rootPackage + tableSpec.pack()))
-                    .addMethod(SetDTOMethodOneToMany.generate(item, rootPackage + tableSpec.pack()));
-        });
+                    .addMethod(SetDTOMethodOneToMany.generate(item, rootPackage + tableSpec.pack())));
 
         return classDTOBuilder.build();
     }

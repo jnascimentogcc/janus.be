@@ -14,7 +14,7 @@ public class FieldDTOOneToMany {
     public static FieldSpec generate(ColumnOneToManySpec columnOneToManySpec, String pack) {
 
         return FieldSpec.builder(ParameterizedTypeName.get(ClassName.get(Collection.class),
-                                ClassName.get(pack + ".model",
+                                ClassName.get(pack + ".dto",
                         CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "DTO")),
                         CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') + "DTOs")
                 .addModifiers(Modifier.PRIVATE)

@@ -9,9 +9,9 @@ import javax.lang.model.element.Modifier;
 
 public class FieldDTOManyToOne {
 
-    public static FieldSpec generate(ColumnManyToOneSpec columnManyToOneSpec, String pack) {
+    public static FieldSpec generate(ColumnManyToOneSpec columnManyToOneSpec, String rootPack) {
 
-        return FieldSpec.builder(ClassName.get(pack + ".model",
+        return FieldSpec.builder(ClassName.get(rootPack + "." + columnManyToOneSpec.pack() + ".dto",
                         CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), true, '_') + "DTO"),
                         CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), false, '_') + "DTO")
                 .addModifiers(Modifier.PRIVATE)

@@ -69,7 +69,8 @@ public class ClassService {
 
         return MethodSpec.methodBuilder("list" + CaseUtils.toCamelCase(tableName, true, '_'))
                 .addModifiers(Modifier.PUBLIC)
-                .returns(ParameterizedTypeName.get(ClassName.get(Collection.class), ClassName.get(rootPackage + packageName + ".model", CaseUtils.toCamelCase(tableName, true, '_') + "DTO")))
+                .addStatement("return null")
+                .returns(ParameterizedTypeName.get(ClassName.get(Collection.class), ClassName.get(rootPackage + packageName + ".dto", CaseUtils.toCamelCase(tableName, true, '_') + "DTO")))
                 .build();
     }
 
@@ -81,11 +82,12 @@ public class ClassService {
                         CaseUtils.toCamelCase(tableName, true, '_') + "DTO()")
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(String.class, "id")
-                .returns(ClassName.get(rootPackage + packageName + ".model", CaseUtils.toCamelCase(tableName, true, '_') + "DTO"))
+                .returns(ClassName.get(rootPackage + packageName + ".dto", CaseUtils.toCamelCase(tableName, true, '_') + "DTO"))
                 .beginControlFlow("try")
-                .addStatement(CaseUtils.toCamelCase(tableName, true, '_') + "Entity " +
+                .addStatement("$T " +
                         CaseUtils.toCamelCase(tableName, false, '_') + "Entity = " +
-                        CaseUtils.toCamelCase(tableName, false, '_') + "Repository.findById(id).orElseThrow()")
+                        CaseUtils.toCamelCase(tableName, false, '_') + "Repository.findById(id).orElseThrow()",
+                        ClassName.get(rootPackage + packageName + ".repository", CaseUtils.toCamelCase(tableName, true, '_') + "Entity"))
                 .addStatement("$T.copyProperties(" + CaseUtils.toCamelCase(tableName, false, '_') +
                         "Entity, " + CaseUtils.toCamelCase(tableName, false, '_') + "DTO)", BeanUtils.class)
                 .addStatement("return " + CaseUtils.toCamelCase(tableName, false, '_') + "DTO")

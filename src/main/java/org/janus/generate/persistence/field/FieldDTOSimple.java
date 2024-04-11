@@ -19,7 +19,7 @@ public class FieldDTOSimple {
 
         FieldSpec.Builder builder = FieldSpec.builder(typeField, CaseUtils.toCamelCase(columnSimpleSpec.name(), false, '_'))
                 .addModifiers(Modifier.PRIVATE);
-        if (!columnSimpleSpec.nullable()) {
+        if (Boolean.FALSE.equals(columnSimpleSpec.nullable())) {
                     builder.addAnnotation(NotBlank.class);
             if ("CHAR".equals(columnSimpleSpec.type()) || "VARCHAR".equals(columnSimpleSpec.type())) {
                 builder.addAnnotation(AnnotationSpec.builder(Size.class)

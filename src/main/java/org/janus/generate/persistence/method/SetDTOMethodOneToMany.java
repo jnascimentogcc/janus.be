@@ -14,7 +14,7 @@ public class SetDTOMethodOneToMany {
         String fieldName = CaseUtils.toCamelCase(columnOneToManySpec.refTable(), false, '_');
         return MethodSpec.methodBuilder("set" + CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "DTOs")
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(ClassName.get(pack + ".model", CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "DTO"),
+                .addParameter(ClassName.get(pack + ".dto", CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "DTO"),
                         CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') + "DTOs")
                 .addStatement("this." + CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') +
                         "DTOs = " + CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') + "DTOs")

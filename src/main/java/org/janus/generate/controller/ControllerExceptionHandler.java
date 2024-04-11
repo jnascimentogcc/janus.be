@@ -1,6 +1,7 @@
 package org.janus.generate.controller;
 
 import com.squareup.javapoet.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +12,8 @@ import javax.lang.model.element.Modifier;
 
 public class ControllerExceptionHandler {
 
+    private ControllerExceptionHandler() {}
+
     public static TypeSpec generate() {
 
         return TypeSpec.classBuilder("ControllerExceptionHandler")
@@ -20,7 +23,7 @@ public class ControllerExceptionHandler {
                 .addMethod(MethodSpec.methodBuilder("handleNotExistException")
                         .addAnnotation(AnnotationSpec.builder(ExceptionHandler.class)
                                 .addMember("value",
-                                        "{$T}",
+                                        "{$T.class}",
                                         ClassName.get("com.autoloan.helper.exception", "ItemNotFoundException"))
                                 .build())
                         .addModifiers(Modifier.PUBLIC)
@@ -28,7 +31,7 @@ public class ControllerExceptionHandler {
                                 TypeVariableName.get("Object")))
                         .addParameter(RuntimeException.class, "ex")
                         .addParameter(WebRequest.class, "request")
-                        .addStatement("return new ResponseEntity<>(HttpStatus.NOT_FOUND);")
+                        .addStatement("return new ResponseEntity<>($T.NOT_FOUND)", HttpStatus.class)
                         .build())
                 .build();
     }

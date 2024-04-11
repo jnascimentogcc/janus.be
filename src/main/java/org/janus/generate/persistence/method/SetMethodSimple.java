@@ -14,7 +14,7 @@ public class SetMethodSimple {
         String fieldName = CaseUtils.toCamelCase(columnSimpleSpec.name(), false, '_');
         return MethodSpec.methodBuilder("set" + CaseUtils.toCamelCase(columnSimpleSpec.name(), true, '_'))
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(GenUtil.getTypeField(columnSimpleSpec), columnSimpleSpec.name())
+                .addParameter(GenUtil.getTypeField(columnSimpleSpec), fieldName)
                 .addStatement("this." + fieldName + " = " + fieldName)
                 .build();
     }

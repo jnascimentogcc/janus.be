@@ -3,6 +3,7 @@ package org.janus.generate.persistence.clazz;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -14,21 +15,20 @@ import javax.lang.model.element.Modifier;
 
 public class ClassApplication {
 
+    private ClassApplication() {}
+
     public static TypeSpec generate(String rootPackage) {
 
         MethodSpec mainMethod = MethodSpec.methodBuilder("main")
-                .addParameter(String.class, "args")
+                .addParameter(String[].class, "args")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addStatement("SpringApplication.run(Application.class, args)")
+                .addStatement("$T.run(Application.class, args)", SpringApplication.class)
                 .build();
 
         return TypeSpec.classBuilder("Application")
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(SpringBootApplication.class)
                 .addAnnotation(AnnotationSpec.builder(EntityScan.class)
-                        .addMember("basePackages", "$S", rootPackage)
-                        .build())
-                .addAnnotation(AnnotationSpec.builder(ComponentScan.class)
                         .addMember("basePackages", "$S", rootPackage)
                         .build())
                 .addAnnotation(AnnotationSpec.builder(ServletComponentScan.class)

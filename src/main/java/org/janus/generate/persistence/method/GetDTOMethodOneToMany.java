@@ -16,7 +16,7 @@ public class GetDTOMethodOneToMany {
         return MethodSpec.methodBuilder("get" + CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "DTOs")
                 .addModifiers(Modifier.PUBLIC)
                 .returns(ParameterizedTypeName.get(ClassName.get(Collection.class),
-                        ClassName.get(pack + ".model" ,
+                        ClassName.get(pack + ".dto" ,
                         CaseUtils.toCamelCase(columnOneToManySpec.tableName(), true, '_') + "DTO")))
                 .addStatement("return this." + CaseUtils.toCamelCase(columnOneToManySpec.tableName(), false, '_') + "DTOs")
                 .build();

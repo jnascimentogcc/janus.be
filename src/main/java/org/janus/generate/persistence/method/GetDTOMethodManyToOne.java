@@ -13,7 +13,7 @@ public class GetDTOMethodManyToOne {
 
         return MethodSpec.methodBuilder("get" + CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), true, '_') + "DTO")
                 .addModifiers(Modifier.PUBLIC)
-                .returns(ClassName.get(pack  + ".model" ,
+                .returns(ClassName.get(pack  + ".dto" ,
                         CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), true, '_') + "DTO"))
                 .addStatement("return this." + CaseUtils.toCamelCase(columnManyToOneSpec.refTable(), false, '_') + "DTO")
                 .build();

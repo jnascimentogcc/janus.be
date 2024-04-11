@@ -1,10 +1,12 @@
 {
   "appName": "AutoLoan - Car Loan",
+  "appId": "AutoLoan",
   "rootPackage": "com.autoloan",
   "databaseUrl": "jdbc:mysql://localhost:3306/autoloan?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true",
   "databaseUser": "autoloan",
   "databasePassword": "autoloan",
   "databaseSchema": "autoloan",
+  "folderApp": "/home/devops/Project/noob",
   "buzzUnits": [
     {
       "name": "Sales",
@@ -40,6 +42,7 @@
                     {
                       "name": "id_customer",
                       "refTable": "customer",
+                      "pack": "relationship.customer.support",
                       "nullable": false
                     }
                   ],

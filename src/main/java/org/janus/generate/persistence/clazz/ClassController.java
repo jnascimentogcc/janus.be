@@ -61,7 +61,7 @@ public class ClassController {
                         .addMember("value", "$S", "${apiprefix.v1}/" +
                                 tableName.replace("_", "").toLowerCase() + "/{id}")
                         .build())
-                .returns(ClassName.get(rootPackage + packageName + ".model",
+                .returns(ClassName.get(rootPackage + packageName + ".dto",
                         CaseUtils.toCamelCase(tableName, true, '_') + "DTO"))
                 .addParameter(ParameterSpec.builder(String.class, "id")
                         .addAnnotation(PathVariable.class)

@@ -5,11 +5,13 @@ import java.util.List;
 public class ConfigJanus {
 
     private String appName;
+    private String appId;
     private String rootPackage;
     private String databaseUrl;
     private String databaseUser;
     private String databasePassword;
     private String databaseSchema;
+    private String folderApp;
     private List<BuzzUnit> buzzUnits;
 
     public String getAppName() {
@@ -18,6 +20,14 @@ public class ConfigJanus {
 
     public void setAppName(String appName) {
         this.appName = appName;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public String getRootPackage() {
@@ -66,5 +76,13 @@ public class ConfigJanus {
 
     public void setBuzzUnits(List<BuzzUnit> buzzUnits) {
         this.buzzUnits = buzzUnits;
+    }
+
+    public String getFolderApp() {
+        return folderApp;
+    }
+
+    public void setFolderApp(String folderApp) {
+        this.folderApp = folderApp;
     }
 }
