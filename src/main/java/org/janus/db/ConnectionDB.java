@@ -10,7 +10,7 @@ public class ConnectionDB {
         Connection newConn;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            newConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/autoloan?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "root");
+            newConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/autoloan?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "autoloan", "autoloan");
         } catch (Exception e) {
             throw new ConnectionException("Error with database connection");
         }

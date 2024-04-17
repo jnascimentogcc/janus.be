@@ -6,7 +6,7 @@
   "databaseUser": "autoloan",
   "databasePassword": "autoloan",
   "databaseSchema": "autoloan",
-  "folderApp": "/home/devops/Project/noob",
+  "folderApp": "C:\\Users\\pesqa\\Documents\\noob",
   "buzzUnits": [
     {
       "name": "Sales",

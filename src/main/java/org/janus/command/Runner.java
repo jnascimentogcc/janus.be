@@ -27,10 +27,10 @@ public class Runner {
 
         ParsePOM.runParser(configJanus, configJanus.getFolderApp());
 
-        Path pathJava = Paths.get(configJanus.getFolderApp() + "/src/main/java");
+        Path pathJava = Paths.get(configJanus.getFolderApp() + "\\src\\main\\java");
 
         // Property (application.property)
-        PropertyGenerator.generateProperty(configJanus.getFolderApp() + "/src/main/resources", configJanus);
+        PropertyGenerator.generateProperty(configJanus.getFolderApp() + "\\src\\main\\resources", configJanus);
 
         try {
             // Exceptions

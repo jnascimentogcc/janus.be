@@ -40,7 +40,7 @@ public class PropertyGenerator {
             if (!directory.exists()) {
                 directory.mkdir();
             }
-            try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(path + "/application.properties"), StandardCharsets.UTF_8)) {
+            try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(path + "\\application.properties"), StandardCharsets.UTF_8)) {
                 props.store(outputStreamWriter, configJanus.getAppName() + "Spring Boot Configuration Properties");
             }
         } catch (IOException e) {
